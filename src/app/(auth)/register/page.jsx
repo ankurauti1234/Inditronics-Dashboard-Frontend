@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -16,14 +16,24 @@ import {
 import { AlertCircle } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import Link from "next/link";
+import Cookies from "js-cookie";
+import AuthLayout from "@/components/layouts/AuthLayout";
 
 function RegisterPage() {
-  const [username, setUsername] = useState("");
+  const [name, setname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const router = useRouter();
+
+  useEffect(() => {
+    const token = Cookies.get("token");
+    if (token) {
+      // If token exists, redirect the user to the dashboard or previous page
+      router.push("/dashboard");
+    }
+  }, [router]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -34,7 +44,7 @@ function RegisterPage() {
       const response = await fetch("http://localhost:5000/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, email, password }),
+        body: JSON.stringify({ name, email, password }),
       });
 
       if (response.ok) {
@@ -52,7 +62,8 @@ function RegisterPage() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+    <AuthLayout>
+    <div className="flex items-center justify-center  h-[87vh]">
       <Card className="w-[350px]">
         <CardHeader>
           <CardTitle>Register</CardTitle>
@@ -62,12 +73,12 @@ function RegisterPage() {
           <form onSubmit={handleSubmit}>
             <div className="grid w-full items-center gap-4">
               <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="username">Username</Label>
+                <Label htmlFor="name">name</Label>
                 <Input
-                  id="username"
-                  placeholder="Enter your username"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
+                  id="name"
+                  placeholder="Enter your name"
+                  value={name}
+                  onChange={(e) => setname(e.target.value)}
                 />
               </div>
               <div className="flex flex-col space-y-1.5">
@@ -125,6 +136,7 @@ function RegisterPage() {
         </CardFooter>
       </Card>
     </div>
+    </AuthLayout>
   );
 }
 

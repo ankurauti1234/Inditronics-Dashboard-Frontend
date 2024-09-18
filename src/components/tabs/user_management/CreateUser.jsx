@@ -1,106 +1,134 @@
-import React from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+'use client'
 
-const CreateUser = () => {
+import { useState } from "react"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { toast } from "sonner"
+import Cookies from "js-cookie"
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card" // Import necessary components
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api'
+
+const CreateUser = ({ onUserCreated }) => {
+  const [loading, setLoading] = useState(false)
+  const [newUser, setNewUser] = useState({
+    name: "",
+    email: "",
+    password: "",
+    role: "Visitor",
+    department: "",
+    company: "",
+    phoneNumber: "",
+    designation: "",
+    employeeId: "",
+  })
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target
+    setNewUser((prev) => ({ ...prev, [name]: value }))
+  }
+
+  const createUser = async (e) => {
+    e.preventDefault()
+    setLoading(true)
+    try {
+      const token = Cookies.get("token")
+      const response = await fetch(`${API_URL}/users`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(newUser),
+      })
+      if (!response.ok) throw new Error('Failed to create user')
+      toast.success("User created successfully!")
+      setNewUser({
+        name: "",
+        email: "",
+        password: "",
+        role: "Visitor",
+        department: "",
+        company: "",
+        phoneNumber: "",
+        designation: "",
+        employeeId: "",
+      })
+      onUserCreated()
+    } catch (error) {
+      console.error("Error creating user:", error)
+      toast.error("An error occurred while creating the user.")
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const isFormValid = () => {
+    return newUser.name && newUser.password && newUser.email && newUser.role;
+  }
+
   return (
-    <Card>
+    <Card className="rounded-lg">
       <CardHeader>
         <CardTitle>Create User</CardTitle>
       </CardHeader>
       <CardContent>
-        <form className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="fullName">Full Name</Label>
-              <Input id="fullName" placeholder="Enter full name" />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="employeeId">Employee ID</Label>
-              <Input id="employeeId" placeholder="Enter employee ID" />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
-              <Input type="email" id="email" placeholder="Enter email" />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
-              <Input
-                type="password"
-                id="password"
-                placeholder="Enter password"
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="department">Department</Label>
-              <Select>
-                <SelectTrigger id="department">
-                  <SelectValue placeholder="Select department" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="hr">Human Resources</SelectItem>
-                  <SelectItem value="it">Information Technology</SelectItem>
-                  <SelectItem value="finance">Finance</SelectItem>
-                  <SelectItem value="marketing">Marketing</SelectItem>
-                  <SelectItem value="operations">Operations</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="designation">Designation</Label>
-              <Input id="designation" placeholder="Enter designation" />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="contactNo">Contact Number</Label>
-              <div className="flex space-x-2">
-                <Select>
-                  <SelectTrigger className="w-[100px]">
-                    <SelectValue placeholder="Code" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="1">+1</SelectItem>
-                    <SelectItem value="44">+44</SelectItem>
-                    <SelectItem value="91">+91</SelectItem>
-                    {/* Add more country codes as needed */}
-                  </SelectContent>
-                </Select>
-                <Input
-                  id="contactNo"
-                  placeholder="Enter contact number"
-                  className="flex-1"
-                />
-              </div>
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="role">Role</Label>
-              <Select>
-                <SelectTrigger id="role">
-                  <SelectValue placeholder="Select a role" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="admin">Admin</SelectItem>
-                  <SelectItem value="user">User</SelectItem>
-                  <SelectItem value="guest">Guest</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
+        <form onSubmit={createUser} className="space-y-4">
+          {/* Essential Fields */}
+          <div className="grid grid-cols-2 gap-4">
+            <Input name="name" placeholder="Name" value={newUser.name} onChange={handleInputChange} required />
+            <Input name="email" type="email" placeholder="Email" value={newUser.email} onChange={handleInputChange} required />
+            <Input name="password" type="password" placeholder="Password" value={newUser.password} onChange={handleInputChange} required />
+            <Select
+              name="role"
+              value={newUser.role}
+              onValueChange={(value) => setNewUser((prev) => ({ ...prev, role: value }))}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Select Role" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Visitor">Visitor</SelectItem>
+                <SelectItem value="Moderator">Moderator</SelectItem>
+                <SelectItem value="Admin">Admin</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
-          <Button type="submit" className="w-full">
-            Create User
+          
+          <hr className="my-4" /> {/* Line separator */}
+
+          {/* Other Fields */}
+          <div className="grid grid-cols-2 gap-4">
+            <Input name="employeeId" placeholder="Employee ID" value={newUser.employeeId} onChange={handleInputChange} required />
+            <Select
+              name="department"
+              value={newUser.department}
+              onValueChange={(value) => setNewUser((prev) => ({ ...prev, department: value }))}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Select Department" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Developer">Developer</SelectItem>
+                <SelectItem value="Field Executive">Field Executive</SelectItem>
+                <SelectItem value="Manager">Manager</SelectItem>
+                <SelectItem value="HR">HR</SelectItem>
+                <SelectItem value="Sales">Sales</SelectItem>
+              </SelectContent>
+            </Select>
+            <Input name="company" placeholder="Company" value={newUser.company} onChange={handleInputChange} />
+            <Input name="phoneNumber" placeholder="Phone Number" value={newUser.phoneNumber} onChange={handleInputChange} />
+            <Input name="designation" placeholder="Designation" value={newUser.designation} onChange={handleInputChange} />
+          </div>
+          
+          <Button type="submit" disabled={loading || !isFormValid()}>
+            {loading ? "Creating..." : "Create User"}
           </Button>
         </form>
       </CardContent>
     </Card>
-  );
-};
+  )
+}
 
-export default CreateUser;
+export default CreateUser

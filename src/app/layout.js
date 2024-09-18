@@ -1,14 +1,26 @@
 import "./globals.css";
 
 export const metadata = {
-  title: "IoT Dashboard",
+  title: "Inditronics Dashboard",
   description: "Next.js Auth App with JWT",
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`relative min-h-screen w-full font-sans antialiased`}>
+<body 
+  className={`
+    relative min-h-screen w-full antialiased suse
+    bg-gradient-to-b from-background to-background
+    before:absolute before:inset-0 
+    before:bg-[radial-gradient(circle_at_top,hsl(var(--primary)/0.1),transparent_50%)]
+    before:pointer-events-none before:content-['']
+  `}
+  style={{
+    '--tw-gradient-from': 'hsl(var(--background))',
+    '--tw-gradient-to': 'hsl(var(--accent)/0.05)',
+  }}
+>
         <svg
           className="absolute -z-50 -top-10 opacity-20"
           width="100%"
@@ -21,7 +33,7 @@ export default function RootLayout({ children }) {
               patternUnits="userSpaceOnUse"
               width="20"
               height="20"
-              patternTransform="scale(2) rotate(0)"
+              patternTransform="scale(0.75) rotate(45)"
             >
               <rect
                 x="0"
@@ -34,7 +46,7 @@ export default function RootLayout({ children }) {
                 d="M3.25 10h13.5M10 3.25v13.5"
                 strokeLinecap="square"
                 strokeWidth="0.5"
-                stroke="hsl(var(--primary))"
+                stroke="hsl(var(--foreground))"
                 fill="none"
               />
             </pattern>

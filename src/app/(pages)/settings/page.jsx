@@ -17,6 +17,7 @@ import {
 import { useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
 import { ArrowLeft } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 
 const page = () => {
@@ -36,11 +37,23 @@ const page = () => {
       router.back();
     };
 
+    if (loading) {
+      return (<div className="flex items-center justify-center h-screen">
+        <div
+          className={cn(
+            "w-16 h-16 border-4 border-dashed rounded-full animate-spin",
+            "border-gray-400 border-t-transparent"
+          )}
+        ></div>
+      </div>)
+  
+    }
+
   return (
     <MainLayout>
       <div className="container mx-auto py-10">
       <div className="flex items- flex-col gap-4 mb-6">
-          <Button variant="secondary" onClick={handleGoBack} className="mr-4 w-fit">
+          <Button variant="outline" onClick={handleGoBack} className="mr-4 w-fit">
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back
           </Button>

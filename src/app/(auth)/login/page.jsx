@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import Link from "next/link"; // Import Link from next/link
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -14,43 +14,59 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { AlertCircle } from "lucide-react";
+import { AlertCircle, RefreshCcw } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import Cookies from "js-cookie";
 import AuthLayout from "@/components/layouts/AuthLayout";
 
 function LoginPage() {
-  const [emailOrUsername, setEmailOrUsername] = useState("");
+  const [emailOrname, setEmailOrname] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
+
+  useEffect(() => {
+    const token = Cookies.get("token");
+    if (token) {
+      router.push("/dashboard");
+    }
+  }, [router]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+    setLoading(true);
 
     try {
       const response = await fetch("http://localhost:5000/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ emailOrUsername, password }),
+        body: JSON.stringify({ emailOrname, password }),
       });
 
       if (response.ok) {
         const data = await response.json();
 
-        Cookies.set("token", data.token);
-        Cookies.set("username", data.username);
-        Cookies.set("role", data.role);
-        Cookies.set("email", data.email);
+        if (data.message === "Please verify your email before logging in") {
+          router.push(`/verify-email?email=${encodeURIComponent(emailOrname)}`);
+        } else {
+          Cookies.set("token", data.token);
+          Cookies.set("name", data.name);
+          Cookies.set("role", data.role);
+          Cookies.set("email", data.email);
+          Cookies.set("expiry", data.expiry);
 
-        router.push("/dashboard");
+          router.push("/dashboard");
+        }
       } else {
         const errorData = await response.json();
         setError(errorData.message);
       }
     } catch (error) {
       setError("An error occurred. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -66,12 +82,12 @@ function LoginPage() {
             <form onSubmit={handleSubmit}>
               <div className="grid w-full items-center gap-4">
                 <div className="flex flex-col space-y-1.5">
-                  <Label htmlFor="emailOrUsername">Email or Username</Label>
+                  <Label htmlFor="emailOrname">Email or name</Label>
                   <Input
-                    id="emailOrUsername"
-                    placeholder="Enter your email or username"
-                    value={emailOrUsername}
-                    onChange={(e) => setEmailOrUsername(e.target.value)}
+                    id="emailOrname"
+                    placeholder="Enter your email or name"
+                    value={emailOrname}
+                    onChange={(e) => setEmailOrname(e.target.value)}
                   />
                 </div>
                 <div className="flex flex-col space-y-1.5">
@@ -88,8 +104,15 @@ function LoginPage() {
             </form>
           </CardContent>
           <CardFooter className="flex flex-col">
-            <Button className="w-full" onClick={handleSubmit}>
-              Login
+            <Button className="w-full" onClick={handleSubmit} disabled={loading}>
+              {loading ? (
+                <>
+                  <RefreshCcw className="mr-2 h-4 w-4 animate-spin" />
+                  Please wait
+                </>
+              ) : (
+                "Login"
+              )}
             </Button>
             {error && (
               <Alert variant="destructive" className="mt-4">

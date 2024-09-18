@@ -209,7 +209,7 @@ export const columns = [
   },
 ];
 
-function Records() {
+function Meter() {
   const [sorting, setSorting] = React.useState([]);
   const [columnFilters, setColumnFilters] = React.useState([]);
   const [columnVisibility, setColumnVisibility] = React.useState({});
@@ -420,4 +420,4 @@ function Records() {
   );
 }
 
-export default Records;
+export default Meter;

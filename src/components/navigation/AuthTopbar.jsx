@@ -15,6 +15,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import Cookies from "js-cookie";
+import Image from "next/image";
+import logo from "../../../public/inditronics-logo.svg";
 
 const AuthTopbar = () => {
   const router = useRouter();
@@ -66,15 +68,15 @@ const AuthTopbar = () => {
   };
 
   return (
-    <header className="sticky top-0 flex w-full justify-between h-16 items-center gap-4 border-b bg-background px-4 md:px-6 z-10">
+    <header className="sticky z-10 top-0 px-4 lg:px-6 h-14 flex justify-between items-center w-full bg-clip-padding backdrop-filter backdrop-blur-xl bg-opacity-10 shadow-inner shadow-accent/50 border-b p-2">
       <Link className="flex items-center justify-center" href="/">
-        <Zap className="h-6 w-6 text-primary" />
-        <span className="ml-2 text-lg font-bold">IoT Insight</span>
+        <Image src={logo} alt="inditronincs logo" height={20} width={40} />
+        <span className="ml-2 text-lg font-bold">Inditronics</span>
       </Link>
       <div className="flex items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
         <Button
-          variant="ghost"
-          className=" size-8 flex items-center justify-center rounded-full"
+          variant="outline"
+          className=" size-8 flex items-center justify-center rounded-lg"
           onClick={toggleTheme}
         >
           <span className="flex items-center justify-center">

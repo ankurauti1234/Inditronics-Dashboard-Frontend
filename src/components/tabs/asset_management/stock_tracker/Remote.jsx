@@ -47,60 +47,35 @@ import { cn } from "@/lib/utils";
 // Update the data structure with new fields
 const data = [
   {
-    meterId: "100001",
+    remoteID: "100001",
     status: "online",
-    connectivityStatus: "connected",
     householdId: "HH1",
-    householdStatus: "active",
     hardwareVersion: "v1.2.3",
-    network: "SIM1",
-    location: "Maharashtra",
-    latLon: "40.7128° N, 74.0060° W",
   },
   {
-    meterId: "100002",
+    remoteID: "100002",
     status: "offline",
-    connectivityStatus: "disconnected",
     householdId: "HH2",
-    householdStatus: "inactive",
     hardwareVersion: "v1.2.3",
-    network: "SIM2",
-    location: "Maharashtra",
-    latLon: "34.0522° N, 118.2437° W",
   },
   // Add more data entries as needed
   {
-    meterId: "100003",
+    remoteID: "100003",
     status: "online",
-    connectivityStatus: "connected",
     householdId: "HH3",
-    householdStatus: "active",
     hardwareVersion: "v1.2.4",
-    network: "SIM1",
-    location: "Maharashtra",
-    latLon: "37.7749° N, 122.4194° W",
   },
   {
-    meterId: "100004",
+    remoteID: "100004",
     status: "offline",
-    connectivityStatus: "disconnected",
     householdId: "HH4",
-    householdStatus: "inactive",
     hardwareVersion: "v1.2.5",
-    network: "SIM2",
-    location: "Maharashtra",
-    latLon: "51.5074° N, 0.1278° W",
   },
   {
-    meterId: "100005",
+    remoteID: "100005",
     status: "online",
-    connectivityStatus: "connected",
     householdId: "HH5",
-    householdStatus: "active",
     hardwareVersion: "v1.2.6",
-    network: "SIM1",
-    location: "Maharashtra",
-    latLon: "48.8566° N, 2.3522° E",
   },
 ];
 
@@ -129,9 +104,9 @@ export const columns = [
     enableHiding: false,
   },
   {
-    accessorKey: "meterId",
-    header: "Meter ID",
-    cell: ({ row }) => <div>{row.getValue("meterId")}</div>,
+    accessorKey: "remoteID",
+    header: "Remote ID",
+    cell: ({ row }) => <div>{row.getValue("remoteID")}</div>,
   },
   {
     accessorKey: "status",
@@ -141,23 +116,9 @@ export const columns = [
     ),
   },
   {
-    accessorKey: "connectivityStatus",
-    header: "Connectivity Status",
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("connectivityStatus")}</div>
-    ),
-  },
-  {
     accessorKey: "householdId",
     header: "Household ID",
     cell: ({ row }) => <div>{row.getValue("householdId")}</div>,
-  },
-  {
-    accessorKey: "householdStatus",
-    header: "Household Status",
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("householdStatus")}</div>
-    ),
   },
   {
     accessorKey: "hardwareVersion",
@@ -165,25 +126,10 @@ export const columns = [
     cell: ({ row }) => <div>{row.getValue("hardwareVersion")}</div>,
   },
   {
-    accessorKey: "network",
-    header: "Network",
-    cell: ({ row }) => <div>{row.getValue("network")}</div>,
-  },
-  {
-    accessorKey: "location",
-    header: "Location",
-    cell: ({ row }) => <div>{row.getValue("location")}</div>,
-  },
-  {
-    accessorKey: "latLon",
-    header: "Lat & Lon",
-    cell: ({ row }) => <div>{row.getValue("latLon")}</div>,
-  },
-  {
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
-      const meter = row.original;
+      const Remote = row.original;
 
       return (
         <DropdownMenu>
@@ -196,9 +142,9 @@ export const columns = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(meter.meterId)}
+              onClick={() => navigator.clipboard.writeText(Remote.remoteID)}
             >
-              Copy Meter ID
+              Copy Remote ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>View details</DropdownMenuItem>
@@ -209,7 +155,7 @@ export const columns = [
   },
 ];
 
-function Records() {
+function Remote() {
   const [sorting, setSorting] = React.useState([]);
   const [columnFilters, setColumnFilters] = React.useState([]);
   const [columnVisibility, setColumnVisibility] = React.useState({});
@@ -262,10 +208,10 @@ function Records() {
       <div className="flex items-center mb-2">
         <div className="flex gap-4 items-center">
           <Input
-            placeholder="Filter Meters..."
-            value={table.getColumn("meterId")?.getFilterValue() ?? ""}
+            placeholder="Filter Remotes..."
+            value={table.getColumn("remoteID")?.getFilterValue() ?? ""}
             onChange={(event) =>
-              table.getColumn("meterId")?.setFilterValue(event.target.value)
+              table.getColumn("remoteID")?.setFilterValue(event.target.value)
             }
             className="max-w-sm"
           />
@@ -420,4 +366,4 @@ function Records() {
   );
 }
 
-export default Records;
+export default Remote;

@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { CircleUser, Menu, Package2, Sun, Moon, Zap } from "lucide-react";
+import { Menu, Package2, Sun, Moon, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -14,25 +14,28 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import Cookies from "js-cookie";
+import logo from '../../../public/inditronics-logo.svg'
+import Image from "next/image";
 
 const Topbar = () => {
   const router = useRouter();
   const pathname = usePathname();
   const [theme, setTheme] = useState("light");
-  const [username, setUsername] = useState("");
+  const [name, setName] = useState("");
 
- useEffect(() => {
-   const savedTheme = localStorage.getItem("theme") || "light";
-   setTheme(savedTheme);
-   document.body.classList.toggle("dark", savedTheme === "dark");
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("theme") || "light";
+    setTheme(savedTheme);
+    document.body.classList.toggle("dark", savedTheme === "dark");
 
-   // Retrieve username from cookies
-   const storedUsername = Cookies.get("username");
-   if (storedUsername) {
-     setUsername(storedUsername);
-   }
- }, []);
+    // Retrieve name from cookies
+    const storedName = Cookies.get("name");
+    if (storedName) {
+      setName(storedName);
+    }
+  }, []);
 
   const toggleTheme = () => {
     const newTheme = theme === "light" ? "dark" : "light";
@@ -65,12 +68,20 @@ const Topbar = () => {
     );
   };
 
+  const getInitials = (name) => {
+    const names = name.split(" ");
+    if (names.length > 1) {
+      return `${names[0][0]}${names[names.length - 1][0]}`.toUpperCase();
+    }
+    return name[0].toUpperCase();
+  };
+
   return (
-    <header className="sticky top-0 flex w-full justify-between h-16 items-center gap-4 border-b bg-background px-4 md:px-6 z-10">
+    <header className="sticky top-0 flex justify-between px-4 lg:px-6 h-14 items-center  w-full bg-clip-padding backdrop-filter backdrop-blur-xl bg-opacity-10 shadow-inner shadow-accent/50 border-b p-2 z-10">
       <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
         <Link className="flex items-center justify-center" href="/">
-          <Zap className="h-6 w-6 text-primary" />
-          <span className="ml-2 text-lg font-bold">IoT Insight</span>
+          <Image src={ logo } alt="inditronincs logo" height={20} width={40} />
+          <span className="ml-2 text-lg font-bold">Inditronics</span>
         </Link>
         {navItems.map((item) => (
           <NavLink key={item.href} href={item.href} label={item.label} />
@@ -105,28 +116,29 @@ const Topbar = () => {
       </Sheet>
       <div className="flex items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
         <Button
-          variant="ghost"
-          className=" size-8 flex items-center justify-center rounded-full"
+          variant="outline"
+          className="size-8 flex items-center justify-center rounded-lg"
           onClick={toggleTheme}
         >
           <span className="flex items-center justify-center">
             {theme === "light" ? (
-              <Moon className=" h-4 w-4 transition-transform duration-200 ease-in-out" />
+              <Moon className="h-4 w-4 transition-transform duration-200 ease-in-out" />
             ) : (
-              <Sun className=" h-4 w-4 transition-transform duration-200 ease-in-out" />
+              <Sun className="h-4 w-4 transition-transform duration-200 ease-in-out" />
             )}
           </span>
         </Button>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button
-              variant="secondary"
+              variant="outline"
               size="icon"
-              className=" flex w-full gap-2 p-2 rounded-full"
+              className="flex h-8 w-full gap-2 p-2 rounded-lg"
             >
-              <CircleUser className="h-6 w-6" />
-              <p>{username ? username : "User"}</p>
-              {/* <span className="sr-only">Toggle user menu</span> */}
+              <Avatar className="h-6 w-6">
+                <AvatarFallback>{getInitials(name || "User")}</AvatarFallback>
+              </Avatar>
+              <p>{name || "User"}</p>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="z-10">
@@ -146,11 +158,10 @@ const Topbar = () => {
             >
               Support
             </DropdownMenuItem>
-
             <DropdownMenuItem
               onClick={() => {
                 Cookies.remove("token");
-                Cookies.remove("username");
+                Cookies.remove("name");
                 Cookies.remove("role");
                 Cookies.remove("email");
                 router.push("/login");

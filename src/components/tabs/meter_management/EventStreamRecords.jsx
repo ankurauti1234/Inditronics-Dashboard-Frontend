@@ -23,8 +23,10 @@ import {
 } from "@/components/ui/popover";
 import { Label } from "@/components/ui/label";
 import { Calendar } from "@/components/ui/calendar";
-import { format } from "date-fns";
+import { format } from 'date-fns';
 import { Checkbox } from "@/components/ui/checkbox";
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
+import { cn } from "@/lib/utils";
 
 export default function EventStreamRecords() {
   const [loading, setLoading] = useState(true);
@@ -62,7 +64,7 @@ export default function EventStreamRecords() {
   const fetchEventData = async () => {
     try {
       let url = `http://localhost:5000/api/events?page=${currentPage}&limit=${limit}`;
-      
+
       Object.entries(searchParams).forEach(([key, value]) => {
         if (value) {
           if (key === 'dateFrom' || key === 'dateTo') {
@@ -161,12 +163,16 @@ export default function EventStreamRecords() {
 
   const convertToCSV = (data) => {
     const headers = ["Device ID", "Timestamp", "Event Type", "Event"];
-    const rows = data.map(event => [
-      event.DEVICE_ID,
-      new Date(event.TS * 1000).toLocaleString(),
-      event.eventName,
-      JSON.stringify(getEventDetails(event))
-    ]);
+    const rows = data.map(event => {
+      // Convert timestamp to milliseconds (if already in milliseconds, no need to multiply)
+      const timestamp = new Date(event.TS).toLocaleString();
+      return [
+        event.DEVICE_ID,
+        timestamp,
+        event.eventName,
+        JSON.stringify(getEventDetails(event))
+      ];
+    });
     return [headers, ...rows].map(row => row.join(',')).join('\n');
   };
 
@@ -179,13 +185,21 @@ export default function EventStreamRecords() {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (<div className="flex items-center justify-center h-full">
+      <div
+        className={cn(
+          "w-16 h-16 border-4 border-dashed rounded-full animate-spin",
+          "border-gray-400 border-t-transparent"
+        )}
+      ></div>
+    </div>)
+
   }
 
   return (
     <main className="flex flex-1 flex-col gap-4  md:gap-8 ">
-      <div className="bg-card border rounded-lg">
-        <div className="flex items-center rounded-t-lg  justify-between px-4 py-2 border-b">
+      <div className="bg-card border p-2 rounded-lg">
+        <div className="flex items-center rounded-t-lg  justify-between mb-2 ">
           <div className="flex w-full justify-between gap-3 items-center">
             <div className="flex items-center gap-4">
               <div className="flex items-center">
@@ -283,6 +297,7 @@ export default function EventStreamRecords() {
                           </PopoverContent>
                         </Popover>
                       </div>
+
                     </div>
                     <div className="flex justify-between">
                       <Button onClick={handleSearch}>Search</Button>
@@ -294,6 +309,7 @@ export default function EventStreamRecords() {
                 </PopoverContent>
               </Popover>
             </div>
+
             <div className="flex gap-1 items-center">
               <Button
                 onClick={() => handlePageChange(currentPage - 1)}
@@ -314,17 +330,45 @@ export default function EventStreamRecords() {
               </Button>
             </div>
           </div>
-          <Button 
-          className="ml-3"
-            onClick={handleExport} 
-            disabled={Object.values(selectedRows).filter(Boolean).length === 0}
-          >
-            <Download className="h-4 w-4 mr-2" />
-            Export Selected
-          </Button>
+          <div className=" mx-3">
+
+            <Select
+              id="limit"
+              value={limit.toString()}
+              onValueChange={(value) => {
+                setLimit(value === "all" ? totalRecords : Number(value)); // Update limit based on selection
+              }}
+            >
+              <SelectTrigger className="w-[120px]">
+                {/* <SelectValue placeholder="Select rows" /> */}
+                {/* <span className="text-sm text-muted-foreground">({totalRecords})</span> */}
+                <span>{limit}</span>
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="5">5</SelectItem>
+                <SelectItem value="10">10</SelectItem>
+                <SelectItem value="20">20</SelectItem>
+                <SelectItem value="50">50</SelectItem>
+                <SelectItem value="100">100</SelectItem>
+                <SelectItem value="200">200</SelectItem>
+                <SelectItem value="all">All {totalRecords}</SelectItem>
+              </SelectContent>
+            </Select>
+
+          </div>
+          {Object.values(selectedRows).filter(Boolean).length > 0 && ( // Conditional rendering
+            <Button
+              className="ml-3"
+              onClick={handleExport}
+              disabled={Object.values(selectedRows).filter(Boolean).length === 0}
+            >
+              <Download className="h-4 w-4 mr-2" />
+              Export Selected
+            </Button>
+          )}
         </div>
-        <ScrollArea className="h-[45vh] w-full">
-          <Table>
+        <ScrollArea className="h-[48vh] rounded-lg border  w-full">
+          <Table className="h-full">
             <TableHeader>
               <TableRow>
                 <TableHead className="w-[50px]">
@@ -336,8 +380,8 @@ export default function EventStreamRecords() {
                     onCheckedChange={handleSelectAll}
                   />
                 </TableHead>
-                <TableHead>Device ID</TableHead>
-                <TableHead>Timestamp</TableHead>
+                <TableHead>DeviceID</TableHead>
+                <TableHead className="w-[180px]">Timestamp</TableHead>
                 <TableHead>Event Type</TableHead>
                 <TableHead>Event</TableHead>
               </TableRow>
@@ -355,14 +399,14 @@ export default function EventStreamRecords() {
                     {event.DEVICE_ID}
                   </TableCell>
                   <TableCell>
-                    {new Date(event.TS * 1000).toLocaleString()}
+                    {event.TS ? format(new Date(event.TS), 'MM/dd/yy, hh:mm:ss a') : 'N/A'}
                   </TableCell>
                   <TableCell>{event.eventName}</TableCell>
                   <TableCell>
-                    {getTableColumns(event).map((key) => (
-                      <div key={key} className="mb-1">
-                        <strong>{key}:</strong> {event[key]?.toString()}
-                      </div>
+                    {getTableColumns(event).map((key, index) => (
+                      <span key={key}>
+                        <strong>{key}:</strong> {event[key]?.toString()}{index < getTableColumns(event).length - 1 ? ', ' : ''}
+                      </span>
                     ))}
                   </TableCell>
                 </TableRow>

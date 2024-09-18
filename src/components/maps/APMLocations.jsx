@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -73,12 +73,12 @@ export default function APMLocations() {
       : [19.7515, 75.7139]; // Center of Maharashtra
 
   return (
-    <Card className="w-full h-fit">
+    <Card className="w-full h-fit bg-transparent bg-clip-padding backdrop-filter backdrop-blur-xl bg-opacity-10 shadow-inner shadow-accent/50 border  rounded-lg">
       <CardHeader className="px-4 py-2 border-b">
         <CardTitle className="text-lg">Device Locations</CardTitle>
       </CardHeader>
-      <CardContent>
-        <div className="flex justify-between my-4">
+      <CardContent className="p-2">
+        <div className="flex justify-between pb-2">
           <Select value={selectedAPM} onValueChange={setSelectedAPM}>
             <SelectTrigger className="w-[180px]">
               <SelectValue placeholder="Select APM" />
@@ -114,7 +114,7 @@ export default function APMLocations() {
             style={{ height: "100%", width: "100%" }}
             className="z-0"
           >
-            <TileLayer url="https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png" />
+            <TileLayer url="https://tiles.stadiamaps.com/tiles/outdoors/{z}/{x}/{y}{r}.png" />
             {currentLocations.map((location, index) => (
               <Marker
                 key={index}

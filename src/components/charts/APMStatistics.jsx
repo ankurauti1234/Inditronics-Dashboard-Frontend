@@ -19,7 +19,7 @@ import {
   Legend,
 } from "recharts";
 
-// Dummy data
+// Dummy data generation function (unchanged)
 const generateData = (apm, dates) => {
   return dates.map((date) => ({
     date,
@@ -41,6 +41,49 @@ const dummyData = {
   APM1: generateData("APM1", dates),
   APM2: generateData("APM2", dates),
   APM3: generateData("APM3", dates),
+};
+
+// Custom tooltip component
+const CustomTooltip = ({
+  active,
+  payload,
+  label,
+  selectedAPM,
+  selectedMetric,
+}) => {
+  if (active && payload && payload.length) {
+    return (
+      <div className="rounded-lg border bg-background p-2 shadow-sm">
+        <p className="text-[0.70rem] uppercase text-muted-foreground">
+          {label}
+        </p>
+        <div className="grid grid-cols-2 gap-2">
+          {selectedAPM === "ALL" ? (
+            payload.map((entry, index) => (
+              <div key={index} className="flex flex-col">
+                <span className="text-[0.70rem] uppercase text-muted-foreground">
+                  {entry.dataKey}
+                </span>
+                <span className="font-bold text-muted-foreground">
+                  {entry.value}
+                </span>
+              </div>
+            ))
+          ) : (
+            <div className="flex flex-col">
+              <span className="text-[0.70rem] uppercase text-muted-foreground">
+                {selectedMetric}
+              </span>
+              <span className="font-bold text-muted-foreground">
+                {payload[0].value}
+              </span>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
+  return null;
 };
 
 export default function APMStatistics() {
@@ -69,12 +112,12 @@ export default function APMStatistics() {
 
   return (
     <div className="w-full -z-0">
-      <Card className="w-full">
+      <Card className="w-full bg-transparent bg-clip-padding backdrop-filter backdrop-blur-xl bg-opacity-10 shadow-inner shadow-accent/50 border  rounded-lg">
         <CardHeader className="px-4 py-2 border-b">
           <CardTitle className="text-lg">All Device Status</CardTitle>
         </CardHeader>
-        <CardContent>
-          <div className="flex flex-col lg:flex-row justify-between space-x-4 my-4 gap-2">
+        <CardContent className=" p-2">
+          <div className="flex flex-col lg:flex-row justify-between pb-2 gap-2">
             <div className="flex justify-between gap-2">
               <Select value={selectedAPM} onValueChange={setSelectedAPM}>
                 <SelectTrigger className="w-[180px]">
@@ -117,15 +160,37 @@ export default function APMStatistics() {
             </div>
           </div>
           <ResponsiveContainer width="100%" height={400}>
-            <BarChart data={chartData} className="z-0">
+            <BarChart
+              data={chartData}
+              className="z-0 bg-card border rounded-lg pt-4"
+            >
               <XAxis dataKey="date" />
               <YAxis />
-              <Tooltip />
+              <Tooltip
+                content={
+                  <CustomTooltip
+                    selectedAPM={selectedAPM}
+                    selectedMetric={selectedMetric}
+                  />
+                }
+              />
               {selectedAPM === "ALL" ? (
                 <>
-                  <Bar dataKey="APM1" fill="hsl(var(--chart-1))" radius={[4, 4, 0, 0]} />
-                  <Bar dataKey="APM2" fill="hsl(var(--chart-2))" radius={[4, 4, 0, 0]} />
-                  <Bar dataKey="APM3" fill="hsl(var(--chart-3))" radius={[4, 4, 0, 0]} />
+                  <Bar
+                    dataKey="APM1"
+                    fill="hsl(var(--chart-1))"
+                    radius={[4, 4, 0, 0]}
+                  />
+                  <Bar
+                    dataKey="APM2"
+                    fill="hsl(var(--chart-2))"
+                    radius={[4, 4, 0, 0]}
+                  />
+                  <Bar
+                    dataKey="APM3"
+                    fill="hsl(var(--chart-3))"
+                    radius={[4, 4, 0, 0]}
+                  />
                 </>
               ) : (
                 <Bar

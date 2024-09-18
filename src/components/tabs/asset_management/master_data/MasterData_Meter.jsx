@@ -36,84 +36,57 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import MainLayout from "@/components/layouts/MainLayout";
-import APMLocations from "@/components/maps/APMLocations";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 
-// Update the data structure with new fields
+// Updated data structure with new fields
 const data = [
   {
     meterId: "100001",
-    status: "online",
-    connectivityStatus: "connected",
-    householdId: "HH1",
-    householdStatus: "active",
-    hardwareVersion: "v1.2.3",
-    network: "SIM1",
-    location: "Maharashtra",
-    latLon: "40.7128° N, 74.0060° W",
+    sim1: "AIRTEL",
+    sim2: "JIO",
+    motherboardSerialNo: "MB001A2B3C",
+    imeiSerialNo: "990000862471854",
+    powerPcbSerialNo: "PWR001X2Y3Z",
+    hardwareVersion: "v2.1.0",
+    softwareVersion: "v3.5.2",
+    ethernetMac: "00:1A:2B:3C:4D:5E",
+    bleAddress: "00:11:22:33:44:55",
+    wifiMac: "AA:BB:CC:DD:EE:FF",
+    validFrom: "2024-01-01",
+    validTo: "2025-12-31",
+    updatedBy: "John Doe"
   },
   {
     meterId: "100002",
-    status: "offline",
-    connectivityStatus: "disconnected",
-    householdId: "HH2",
-    householdStatus: "inactive",
-    hardwareVersion: "v1.2.3",
-    network: "SIM2",
-    location: "Maharashtra",
-    latLon: "34.0522° N, 118.2437° W",
+    sim1: "JIO",
+    sim2: "VI",
+    motherboardSerialNo: "MB002D4E5F",
+    imeiSerialNo: "990000862471855",
+    powerPcbSerialNo: "PWR002A3B4C",
+    hardwareVersion: "v2.1.1",
+    softwareVersion: "v3.5.3",
+    ethernetMac: "00:2B:3C:4D:5E:6F",
+    bleAddress: "11:22:33:44:55:66",
+    wifiMac: "BB:CC:DD:EE:FF:00",
+    validFrom: "2024-02-01",
+    validTo: "2026-01-31",
+    updatedBy: "Jane Smith"
   },
-  // Add more data entries as needed
-  {
-    meterId: "100003",
-    status: "online",
-    connectivityStatus: "connected",
-    householdId: "HH3",
-    householdStatus: "active",
-    hardwareVersion: "v1.2.4",
-    network: "SIM1",
-    location: "Maharashtra",
-    latLon: "37.7749° N, 122.4194° W",
-  },
-  {
-    meterId: "100004",
-    status: "offline",
-    connectivityStatus: "disconnected",
-    householdId: "HH4",
-    householdStatus: "inactive",
-    hardwareVersion: "v1.2.5",
-    network: "SIM2",
-    location: "Maharashtra",
-    latLon: "51.5074° N, 0.1278° W",
-  },
-  {
-    meterId: "100005",
-    status: "online",
-    connectivityStatus: "connected",
-    householdId: "HH5",
-    householdStatus: "active",
-    hardwareVersion: "v1.2.6",
-    network: "SIM1",
-    location: "Maharashtra",
-    latLon: "48.8566° N, 2.3522° E",
-  },
+  // ... 8 more entries with similar structure
 ];
 
-// Update the column definitions with new fields
+
+// Updated column definitions
 export const columns = [
   {
     id: "select",
     header: ({ table }) => (
       <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
+        checked={table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && "indeterminate")}
         onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
         aria-label="Select all"
       />
@@ -134,50 +107,69 @@ export const columns = [
     cell: ({ row }) => <div>{row.getValue("meterId")}</div>,
   },
   {
-    accessorKey: "status",
-    header: "Status",
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("status")}</div>
-    ),
+    accessorKey: "sim1",
+    header: "SIM 1",
+    cell: ({ row }) => <div>{row.getValue("sim1")}</div>,
   },
   {
-    accessorKey: "connectivityStatus",
-    header: "Connectivity Status",
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("connectivityStatus")}</div>
-    ),
+    accessorKey: "sim2",
+    header: "SIM 2",
+    cell: ({ row }) => <div>{row.getValue("sim2")}</div>,
   },
   {
-    accessorKey: "householdId",
-    header: "Household ID",
-    cell: ({ row }) => <div>{row.getValue("householdId")}</div>,
+    accessorKey: "motherboardSerialNo",
+    header: "Motherboard S. No",
+    cell: ({ row }) => <div>{row.getValue("motherboardSerialNo")}</div>,
   },
   {
-    accessorKey: "householdStatus",
-    header: "Household Status",
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("householdStatus")}</div>
-    ),
+    accessorKey: "imeiSerialNo",
+    header: "IMEI Sr No",
+    cell: ({ row }) => <div>{row.getValue("imeiSerialNo")}</div>,
+  },
+  {
+    accessorKey: "powerPcbSerialNo",
+    header: "POWER PCB Sr No",
+    cell: ({ row }) => <div>{row.getValue("powerPcbSerialNo")}</div>,
   },
   {
     accessorKey: "hardwareVersion",
-    header: "Hardware Version",
+    header: "H/W Version",
     cell: ({ row }) => <div>{row.getValue("hardwareVersion")}</div>,
   },
   {
-    accessorKey: "network",
-    header: "Network",
-    cell: ({ row }) => <div>{row.getValue("network")}</div>,
+    accessorKey: "softwareVersion",
+    header: "S/W Version",
+    cell: ({ row }) => <div>{row.getValue("softwareVersion")}</div>,
   },
   {
-    accessorKey: "location",
-    header: "Location",
-    cell: ({ row }) => <div>{row.getValue("location")}</div>,
+    accessorKey: "ethernetMac",
+    header: "Ethernet MAC",
+    cell: ({ row }) => <div>{row.getValue("ethernetMac")}</div>,
   },
   {
-    accessorKey: "latLon",
-    header: "Lat & Lon",
-    cell: ({ row }) => <div>{row.getValue("latLon")}</div>,
+    accessorKey: "bleAddress",
+    header: "BLE Address",
+    cell: ({ row }) => <div>{row.getValue("bleAddress")}</div>,
+  },
+  {
+    accessorKey: "wifiMac",
+    header: "WiFi MAC",
+    cell: ({ row }) => <div>{row.getValue("wifiMac")}</div>,
+  },
+  {
+    accessorKey: "validFrom",
+    header: "Valid From",
+    cell: ({ row }) => <div>{row.getValue("validFrom")}</div>,
+  },
+  {
+    accessorKey: "validTo",
+    header: "Valid To",
+    cell: ({ row }) => <div>{row.getValue("validTo")}</div>,
+  },
+  {
+    accessorKey: "updatedBy",
+    header: "Updated By",
+    cell: ({ row }) => <div>{row.getValue("updatedBy")}</div>,
   },
   {
     id: "actions",
@@ -195,9 +187,7 @@ export const columns = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(meter.meterId)}
-            >
+            <DropdownMenuItem onClick={() => navigator.clipboard.writeText(meter.meterId)}>
               Copy Meter ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
@@ -209,7 +199,7 @@ export const columns = [
   },
 ];
 
-function Records() {
+function MasterData_Meter() {
   const [sorting, setSorting] = React.useState([]);
   const [columnFilters, setColumnFilters] = React.useState([]);
   const [columnVisibility, setColumnVisibility] = React.useState({});
@@ -246,15 +236,11 @@ function Records() {
   });
 
   if (loading) {
-    return (<div className="flex items-center justify-center h-full">
-      <div
-        className={cn(
-          "w-16 h-16 border-4 border-dashed rounded-full animate-spin",
-          "border-gray-400 border-t-transparent"
-        )}
-      ></div>
-    </div>)
-
+    return (
+      <div className="flex items-center justify-center h-full">
+        <div className={cn("w-16 h-16 border-4 border-dashed rounded-full animate-spin", "border-gray-400 border-t-transparent")}></div>
+      </div>
+    );
   }
 
   return (
@@ -264,9 +250,7 @@ function Records() {
           <Input
             placeholder="Filter Meters..."
             value={table.getColumn("meterId")?.getFilterValue() ?? ""}
-            onChange={(event) =>
-              table.getColumn("meterId")?.setFilterValue(event.target.value)
-            }
+            onChange={(event) => table.getColumn("meterId")?.setFilterValue(event.target.value)}
             className="max-w-sm"
           />
 
@@ -280,53 +264,25 @@ function Records() {
               <Card>
                 <CardHeader>
                   <CardTitle>Apply filters</CardTitle>
-                  <CardDescription>
-                    Use filters to further refine search
-                  </CardDescription>
+                  <CardDescription>Use filters to further refine search</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                     <div className="flex flex-col space-y-2">
-                      <Label htmlFor="name">Name</Label>
-                      <Input
-                        type="text"
-                        id="name"
-                        placeholder="raspberry juice"
-                      />
+                      <Label htmlFor="meterId">Meter ID</Label>
+                      <Input type="text" id="meterId" placeholder="M100001" />
                     </div>
-
                     <div className="flex flex-col space-y-2">
-                      <Label htmlFor="manufacturer">Manufacturer</Label>
-                      <Input
-                        type="text"
-                        id="manufacturer"
-                        placeholder="cadbery"
-                      />
+                      <Label htmlFor="sim1">SIM 1</Label>
+                      <Input type="text" id="sim1" placeholder="8991000123456789" />
                     </div>
-
                     <div className="flex flex-col space-y-2">
-                      <Label htmlFor="date">Date of Entry</Label>
-                      <Input type="date" id="date" />
+                      <Label htmlFor="hardwareVersion">H/W Version</Label>
+                      <Input type="text" id="hardwareVersion" placeholder="v2.1.0" />
                     </div>
-
                     <div className="flex flex-col space-y-2">
-                      <Label htmlFor="status">Status</Label>
-                      <Select>
-                        <SelectTrigger id="status">
-                          <SelectValue placeholder="Select status" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="dispatched">
-                            Dispatched Out
-                          </SelectItem>
-                          <SelectItem value="in-warehouse">
-                            In Warehouse
-                          </SelectItem>
-                          <SelectItem value="bringing-in">
-                            Being Brought In
-                          </SelectItem>
-                        </SelectContent>
-                      </Select>
+                      <Label htmlFor="softwareVersion">S/W Version</Label>
+                      <Input type="text" id="softwareVersion" placeholder="v3.5.2" />
                     </div>
                   </div>
                 </CardContent>
@@ -355,9 +311,7 @@ function Records() {
                     key={column.id}
                     className="capitalize"
                     checked={column.getIsVisible()}
-                    onCheckedChange={(value) =>
-                      column.toggleVisibility(!!value)
-                    }
+                    onCheckedChange={(value) => column.toggleVisibility(!!value)}
                   >
                     {column.id}
                   </DropdownMenuCheckboxItem>
@@ -367,7 +321,7 @@ function Records() {
         </DropdownMenu>
       </div>
       <div className="rounded-md border">
-        <Table>
+      <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
@@ -376,10 +330,7 @@ function Records() {
                     <TableHead key={header.id}>
                       {header.isPlaceholder
                         ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
+                        : flexRender(header.column.columnDef.header, header.getContext())}
                     </TableHead>
                   );
                 })}
@@ -389,26 +340,17 @@ function Records() {
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                >
+                <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
                   ))}
                 </TableRow>
               ))
             ) : (
               <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center"
-                >
+                <TableCell colSpan={columns.length} className="h-24 text-center">
                   No results.
                 </TableCell>
               </TableRow>
@@ -420,4 +362,4 @@ function Records() {
   );
 }
 
-export default Records;
+export default MasterData_Meter
