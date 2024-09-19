@@ -101,7 +101,7 @@ const UserManagementPage = () => {
 
   return (
     <MainLayout>
-      <div className="p-6">
+      <div className="">
         <h1 className="text-2xl font-bold mb-6">User Management</h1>
         <Tabs defaultValue="userManagement" className="w-full">
           <TabsList className="grid w-fit grid-cols-2  bg-clip-padding backdrop-filter backdrop-blur-xl bg-opacity-10 shadow-inner shadow-accent/50 bg-transparent border">

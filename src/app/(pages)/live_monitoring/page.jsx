@@ -1,7 +1,7 @@
-'use client'
+"use client";
 
-import * as React from "react"
-import { ChevronDown, ChevronRight } from "lucide-react"
+import * as React from "react";
+import { ChevronDown, ChevronRight } from "lucide-react";
 import {
   ColumnDef,
   flexRender,
@@ -10,11 +10,11 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
-} from "@tanstack/react-table"
-import Image from "next/image"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { ScrollArea } from "@/components/ui/scroll-area"
+} from "@tanstack/react-table";
+import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Table,
   TableBody,
@@ -22,21 +22,21 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
-import { Badge } from "@/components/ui/badge"
-import MainLayout from "@/components/layouts/MainLayout"
-import LiveMonitorMap from "@/components/maps/LiveMonitorMap"
-import { useRouter } from "next/navigation"
-import Cookies from "js-cookie"
-import { cn } from "@/lib/utils"
+} from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
+import MainLayout from "@/components/layouts/MainLayout";
+import LiveMonitorMap from "@/components/maps/LiveMonitorMap";
+import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
+import { cn } from "@/lib/utils";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { RadialBarChart, RadialBar, Legend, Tooltip } from 'recharts'
+} from "@/components/ui/dialog";
+import { RadialBarChart, RadialBar, Legend, Tooltip } from "recharts";
 
 const data = [
   {
@@ -310,7 +310,7 @@ const data = [
     lon: -77.0364,
     confidence: 68,
   },
-]
+];
 
 const ChannelDialog = ({ channel, confidence }) => (
   <Dialog>
@@ -346,13 +346,13 @@ const ChannelDialog = ({ channel, confidence }) => (
           innerRadius={100}
           outerRadius={140}
           barSize={80}
-          data={[{ name: 'Confidence', value: confidence }]}
+          data={[{ name: "Confidence", value: confidence }]}
           startAngle={90}
           endAngle={-270}
         >
           <RadialBar
             minAngle={15}
-            label={{ position: 'insideStart', fill: '#4fe54f' }}
+            label={{ position: "insideStart", fill: "#4fe54f" }}
             background
             clockWise
             dataKey="value"
@@ -361,39 +361,41 @@ const ChannelDialog = ({ channel, confidence }) => (
       </div>
     </DialogContent>
   </Dialog>
-)
+);
 
 export const columns = [
   {
     accessorKey: "status",
     header: "Status",
     cell: ({ row }) => {
-      const status = row.getValue("status")
+      const status = row.getValue("status");
       return (
         <Badge
           variant={status === "online" ? "default" : "destructive"}
-          className={`h-3 w-3 p-0 ${
-            status === "online" ? "bg-green-500" : ""
-          }`}
+          className={`h-3 w-3 p-0 ${status === "online" ? "bg-green-500" : ""}`}
         ></Badge>
-      )
+      );
     },
   },
   {
     accessorKey: "meterId",
     header: "Meter ID",
     cell: ({ row }) => {
-      const router = useRouter()
+      const router = useRouter();
       return (
-<button
-  className="text-foreground bg-background hover:underline cursor-pointer flex items-center rounded-xl border px-2 transition-all duration-300 ease-in-out group relative"
-  onClick={() => router.push(`/live_monitoring/${row.getValue("meterId")}`)}
->
-<span className="flex items-center">{row.getValue("meterId")}</span>
-<ChevronRight className="ml-2 transform group-hover:translate-x-1 transition-transform duration-300" size={16} />
-</button>
-
-      )
+        <button
+          className="text-foreground bg-background hover:underline cursor-pointer flex items-center rounded-xl border px-2 transition-all duration-300 ease-in-out group relative"
+          onClick={() =>
+            router.push(`/live_monitoring/${row.getValue("meterId")}`)
+          }
+        >
+          <span className="flex items-center">{row.getValue("meterId")}</span>
+          <ChevronRight
+            className="ml-2 transform group-hover:translate-x-1 transition-transform duration-300"
+            size={16}
+          />
+        </button>
+      );
     },
   },
   {
@@ -404,17 +406,19 @@ export const columns = [
     accessorKey: "householdStatus",
     header: "Household Status",
     cell: ({ row }) => {
-      const status = row.getValue("householdStatus")
+      const status = row.getValue("householdStatus");
       return (
         <Badge
           variant={status === "active" ? "Secondary" : "Secondary"}
           className={` ${
-            status === "active" ? "border border-green-500 bg-green-200 dark:bg-green-500/25" : "border border-gray-500 bg-muted"
+            status === "active"
+              ? "border border-green-500 bg-green-200 dark:bg-green-500/25"
+              : "border border-gray-500 bg-muted"
           }`}
         >
           {status}
         </Badge>
-      )
+      );
     },
   },
   {
@@ -437,55 +441,59 @@ export const columns = [
     accessorKey: "sim1",
     header: "SIM 1",
     cell: ({ row }) => {
-      const status = row.getValue("sim1")
+      const status = row.getValue("sim1");
       return (
         <Badge
           variant={status === "active" ? "Secondary" : "Secondary"}
           className={` ${
-            status === "active" ? "border border-green-500 bg-green-200 dark:bg-green-500/25" : "border border-gray-500 bg-muted"
+            status === "active"
+              ? "border border-green-500 bg-green-200 dark:bg-green-500/25"
+              : "border border-gray-500 bg-muted"
           }`}
         >
           {status}
         </Badge>
-      )
+      );
     },
   },
   {
     accessorKey: "sim2",
     header: "SIM 2",
     cell: ({ row }) => {
-      const status = row.getValue("sim2")
+      const status = row.getValue("sim2");
       return (
         <Badge
-        variant={status === "active" ? "Secondary" : "Secondary"}
-        className={` ${
-          status === "active" ? "border border-green-500 bg-green-200 dark:bg-green-500/25" : "border border-gray-500 bg-muted"
-        }`}
-      >
+          variant={status === "active" ? "Secondary" : "Secondary"}
+          className={` ${
+            status === "active"
+              ? "border border-green-500 bg-green-200 dark:bg-green-500/25"
+              : "border border-gray-500 bg-muted"
+          }`}
+        >
           {status}
         </Badge>
-      )
+      );
     },
   },
-]
+];
 
 function Page() {
-  const [sorting, setSorting] = React.useState([])
-  const [columnFilters, setColumnFilters] = React.useState([])
-  const [columnVisibility, setColumnVisibility] = React.useState({})
-  const [rowSelection, setRowSelection] = React.useState({})
-  const [loading, setLoading] = React.useState(true)
-  const [searchTerm, setSearchTerm] = React.useState("")
-  const router = useRouter()
+  const [sorting, setSorting] = React.useState([]);
+  const [columnFilters, setColumnFilters] = React.useState([]);
+  const [columnVisibility, setColumnVisibility] = React.useState({});
+  const [rowSelection, setRowSelection] = React.useState({});
+  const [loading, setLoading] = React.useState(true);
+  const [searchTerm, setSearchTerm] = React.useState("");
+  const router = useRouter();
 
   React.useEffect(() => {
-    const token = Cookies.get("token")
+    const token = Cookies.get("token");
     if (!token) {
-      router.push("/login")
+      router.push("/login");
     } else {
-      setLoading(false)
+      setLoading(false);
     }
-  }, [router])
+  }, [router]);
 
   const table = useReactTable({
     data,
@@ -504,15 +512,15 @@ function Page() {
       columnVisibility,
       rowSelection,
     },
-  })
+  });
 
   const handleSearch = () => {
-    table.getColumn("meterId")?.setFilterValue(searchTerm)
-  }
+    table.getColumn("meterId")?.setFilterValue(searchTerm);
+  };
 
   const filteredDevices = table
     .getFilteredRowModel()
-    .rows.map((row) => row.original)
+    .rows.map((row) => row.original);
 
   if (loading) {
     return (
@@ -524,12 +532,12 @@ function Page() {
           )}
         ></div>
       </div>
-    )
+    );
   }
 
   return (
     <MainLayout>
-      <div className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
+      <div className="flex flex-1 flex-col gap-4">
         <h1 className="text-2xl font-bold">Live Monitoring</h1>
         <div className="w-full p-2 rounded-lg bg-clip-padding backdrop-filter backdrop-blur-xl bg-opacity-10 shadow-inner shadow-accent/50 border ">
           <LiveMonitorMap devices={filteredDevices} />
@@ -599,7 +607,7 @@ function Page() {
         </div>
       </div>
     </MainLayout>
-  )
+  );
 }
 
-export default Page
+export default Page;

@@ -1,6 +1,6 @@
-'use client'
-import MainLayout from '@/components/layouts/MainLayout'
-import React, { useEffect, useState } from 'react'
+"use client";
+import MainLayout from "@/components/layouts/MainLayout";
+import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -14,46 +14,50 @@ import {
   CardContent,
   CardFooter,
 } from "@/components/ui/card";
-import { useRouter } from 'next/navigation';
-import Cookies from 'js-cookie';
-import { ArrowLeft } from 'lucide-react';
-import { cn } from '@/lib/utils';
-
+import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
+import { ArrowLeft } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 const page = () => {
-    const [loading, setLoading] = useState(true);
-    const router = useRouter();
+  const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
-    useEffect(() => {
-      const token = Cookies.get("token");
-      if (!token) {
-        router.push("/login");
-      } else {
-        setLoading(false);
-      }
-    }, [router]);
+  useEffect(() => {
+    const token = Cookies.get("token");
+    if (!token) {
+      router.push("/login");
+    } else {
+      setLoading(false);
+    }
+  }, [router]);
 
-    const handleGoBack = () => {
-      router.back();
-    };
+  const handleGoBack = () => {
+    router.back();
+  };
 
-    if (loading) {
-      return (<div className="flex items-center justify-center h-screen">
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
         <div
           className={cn(
             "w-16 h-16 border-4 border-dashed rounded-full animate-spin",
             "border-gray-400 border-t-transparent"
           )}
         ></div>
-      </div>)
-  
-    }
+      </div>
+    );
+  }
 
   return (
     <MainLayout>
-      <div className="container mx-auto py-10">
-      <div className="flex items- flex-col gap-4 mb-6">
-          <Button variant="outline" onClick={handleGoBack} className="mr-4 w-fit">
+      <div className=" ">
+        <div className="flex items- flex-col gap-4 mb-6">
+          <Button
+            variant="outline"
+            onClick={handleGoBack}
+            className="mr-4 w-fit"
+          >
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back
           </Button>
@@ -148,6 +152,6 @@ const page = () => {
       </div>
     </MainLayout>
   );
-}
+};
 
-export default page
+export default page;

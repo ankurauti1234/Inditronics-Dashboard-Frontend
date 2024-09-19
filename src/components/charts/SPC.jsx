@@ -48,8 +48,8 @@ const generateDataPoint = (time, index) => {
 const generateInitialData = () => {
   const data = [];
   const now = new Date();
-  for (let i = 0; i < 60; i++) {
-    const time = new Date(now.getTime() - (60 - i) * 5000);
+  for (let i = 0; i < 20; i++) {
+    const time = new Date(now.getTime() - (20 - i) * 5000);
     data.push(generateDataPoint(time, i));
   }
   return data;
@@ -116,12 +116,10 @@ const SPC = ({ device }) => {
           <CardTitle className="text-lg">{device} ddd</CardTitle>
         </CardHeader>
       )}
-      <CardContent className=" flex flex-col md:flex-row gap-4 p-2">
+      <CardContent className=" flex flex-col md:flex-row gap-4 p-4">
         <Card className="w-full">
           <CardHeader className="px-4 py-2 border-b">
-            <CardTitle className="text-lg">
-              Temprature Over Time (Line Chart)
-            </CardTitle>
+            <CardTitle className="text-lg">Temprature Over Time</CardTitle>
           </CardHeader>
           <CardContent className="w-full p-2">
             <ResponsiveContainer
@@ -173,22 +171,51 @@ const SPC = ({ device }) => {
                   type="monotone"
                   dataKey="Temperature"
                   stroke="#8884d8"
+                  strokeWidth={2}
                   dot={(props) => {
                     const { cx, cy, payload } = props;
                     if (
                       payload.Temperature > temperatureUCL ||
                       payload.Temperature < temperatureLCL
                     ) {
-                      return <circle cx={cx} cy={cy} r={4} fill="red" />;
+                      return (
+                        <g>
+                          <circle cx={cx} cy={cy} r={6} fill="red" />{" "}
+                          <text
+                            x={cx}
+                            y={cy - 15} // Adjust vertical position as needed
+                            textAnchor="middle"
+                            fill="white"
+                            fontSize={12}
+                            fontWeight="bold"
+                          >
+                            {payload.Temperature.toFixed(2)}
+                          </text>
+                        </g>
+                      );
                     }
-                    return null;
+                    return (
+                      <g>
+                        <circle cx={cx} cy={cy} r={4} fill="#8884d8" />
+                        <text
+                          x={cx}
+                          y={cy - 15} // Adjust vertical position as needed
+                          textAnchor="middle"
+                          fill="#8884d8"
+                          fontSize={12}
+                          fontWeight="bold"
+                        >
+                          {payload.Temperature.toFixed(2)}
+                        </text>
+                      </g>
+                    );
                   }}
                 />
                 <ReferenceLine
                   y={averageTemperature}
                   stroke="green"
                   strokeDasharray="3 3"
-                  label={{ value: "Average", position: "insideTopLeft" }}
+                  label={{ value: "Mean", position: "insideTopLeft" }}
                 />
                 <ReferenceLine
                   y={temperatureUCL}
@@ -208,9 +235,7 @@ const SPC = ({ device }) => {
         </Card>
         <Card className="w-full">
           <CardHeader className="px-4 py-2 border-b">
-            <CardTitle className="text-lg">
-              Humidity Over Time (Line Chart)
-            </CardTitle>
+            <CardTitle className="text-lg">Humidity Over Time</CardTitle>
           </CardHeader>
           <CardContent className="w-full p-2">
             <ResponsiveContainer
@@ -251,22 +276,51 @@ const SPC = ({ device }) => {
                   type="monotone"
                   dataKey="Humidity"
                   stroke="#82ca9d"
+                  strokeWidth={2}
                   dot={(props) => {
                     const { cx, cy, payload } = props;
                     if (
                       payload.Humidity > humidityUCL ||
                       payload.Humidity < humidityLCL
                     ) {
-                      return <circle cx={cx} cy={cy} r={4} fill="red" />;
+                      return (
+                        <g>
+                          <circle cx={cx} cy={cy} r={6} fill="red" />
+                          <text
+                            x={cx}
+                            y={cy - 15} // Adjust vertical position as needed
+                            textAnchor="middle"
+                            fill="white"
+                            fontSize={12}
+                            fontWeight="bold"
+                          >
+                            {payload.Humidity.toFixed(2)}
+                          </text>
+                        </g>
+                      );
                     }
-                    return null;
+                    return (
+                      <g>
+                        <circle cx={cx} cy={cy} r={4} fill="#82ca9d" />
+                        <text
+                          x={cx}
+                          y={cy - 15} // Adjust vertical position as needed
+                          textAnchor="middle"
+                          fill="#82ca9d"
+                          fontSize={12}
+                          fontWeight="bold"
+                        >
+                          {payload.Humidity.toFixed(2)}
+                        </text>
+                      </g>
+                    );
                   }}
                 />
                 <ReferenceLine
                   y={averageHumidity}
                   stroke="green"
                   strokeDasharray="3 3"
-                  label={{ value: "Average", position: "insideTopLeft" }}
+                  label={{ value: "Mean", position: "insideTopLeft" }}
                 />
                 <ReferenceLine
                   y={humidityUCL}

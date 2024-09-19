@@ -40,6 +40,7 @@ import {
 } from "lucide-react";
 import Analytics from "@/components/charts/Analytics";
 import SensorData from "@/components/charts/SensorData";
+import Analytics2 from "@/components/charts/Analytics2";
 
 const iconMap = {
   TAMPER_ALARM: <PocketKnife className="h-4 w-4 text-primary" />,
@@ -56,7 +57,6 @@ const alertTypeMap = {
   SIM_ALERT: 16,
   SYSTEM_ALARM: 17,
 };
-
 
 export default function Dashboard() {
   const [loading, setLoading] = useState(true);
@@ -177,7 +177,7 @@ export default function Dashboard() {
 
   return (
     <MainLayout>
-      <main className="flex flex-1 flex-col gap-6 p-6 ">
+      <main className="flex flex-1 flex-col gap-6 ">
         <h1 className="text-2xl font-bold">Dashboard</h1>
         <Tabs defaultValue="overview" className="w-full">
           <TabsList className="bg-clip-padding backdrop-filter backdrop-blur-xl bg-opacity-10 shadow-inner shadow-accent/50 bg-transparent border mb-4">
@@ -252,13 +252,14 @@ export default function Dashboard() {
           <TabsContent value="live">
             <div className="grid gap-8">
               <SensorData />
-              <SPC device ="Device 001"/>
+              <SPC device="Device 001" />
             </div>
           </TabsContent>
 
           <TabsContent value="analytics">
             <div className="grid gap-8">
               <Analytics />
+              <Analytics2/>
             </div>
           </TabsContent>
         </Tabs>
@@ -334,4 +335,3 @@ export default function Dashboard() {
     </MainLayout>
   );
 }
-

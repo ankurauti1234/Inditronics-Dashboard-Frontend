@@ -3,7 +3,15 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { Menu, Package2, Sun, Moon, Zap } from "lucide-react";
+import {
+  Menu,
+  Package2,
+  Sun,
+  Moon,
+  Zap,
+  Maximize,
+  Minimize,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -16,7 +24,7 @@ import {
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import Cookies from "js-cookie";
-import logo from '../../../public/inditronics-logo.svg'
+import logo from "../../../public/inditronics-logo.svg";
 import Image from "next/image";
 
 const Topbar = () => {
@@ -24,6 +32,7 @@ const Topbar = () => {
   const pathname = usePathname();
   const [theme, setTheme] = useState("light");
   const [name, setName] = useState("");
+  const [isContainerEnabled, setIsContainerEnabled] = useState(true);
 
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme") || "light";
@@ -35,6 +44,12 @@ const Topbar = () => {
     if (storedName) {
       setName(storedName);
     }
+
+    // Retrieve container state from localStorage
+    const containerState = localStorage.getItem("containerEnabled");
+    setIsContainerEnabled(
+      containerState === null ? true : JSON.parse(containerState)
+    );
   }, []);
 
   const toggleTheme = () => {
@@ -43,6 +58,15 @@ const Topbar = () => {
     localStorage.setItem("theme", newTheme);
     document.body.classList.toggle("dark");
   };
+
+ const toggleContainer = () => {
+   const newState = !isContainerEnabled;
+   setIsContainerEnabled(newState);
+   localStorage.setItem("containerEnabled", JSON.stringify(newState));
+   // Dispatch a custom event to notify MainLayout
+   const event = new CustomEvent("toggleContainer", { detail: newState });
+   document.dispatchEvent(event);
+ };
 
   const navItems = [
     { href: "/dashboard", label: "Dashboard" },
@@ -80,7 +104,7 @@ const Topbar = () => {
     <header className="sticky top-0 flex justify-between px-4 lg:px-6 h-14 items-center  w-full bg-clip-padding backdrop-filter backdrop-blur-xl bg-opacity-10 shadow-inner shadow-accent/50 border-b p-2 z-10">
       <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
         <Link className="flex items-center justify-center" href="/">
-          <Image src={ logo } alt="inditronincs logo" height={20} width={40} />
+          <Image src={logo} alt="inditronincs logo" height={20} width={40} />
           <span className="ml-2 text-lg font-bold">Inditronics</span>
         </Link>
         {navItems.map((item) => (
@@ -144,6 +168,19 @@ const Topbar = () => {
           <DropdownMenuContent align="end" className="z-10">
             <DropdownMenuLabel>My Account</DropdownMenuLabel>
             <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={toggleContainer}>
+              {isContainerEnabled ? (
+                <>
+                  <Maximize className="mr-2 h-4 w-4" />
+                  <span>Expand Content</span>
+                </>
+              ) : (
+                <>
+                  <Minimize className="mr-2 h-4 w-4" />
+                  <span>Narrow Content</span>
+                </>
+              )}
+            </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => {
                 router.push("/settings");

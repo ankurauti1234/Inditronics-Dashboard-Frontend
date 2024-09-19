@@ -13,7 +13,8 @@ import Summary from "@/components/tabs/asset_management/stock_tracker/Summary";
 
 import MasterData_Meter from "@/components/tabs/asset_management/master_data/MasterData_Meter";
 import MasterData_Remote from "@/components/tabs/asset_management/master_data/MasterData_Remote";
-
+import FieldActivity_Meter from "@/components/tabs/asset_management/field_ativity_ledger/FieldActivity_Meter";
+import TestArchive from "@/components/tabs/asset_management/TestArchive";
 
 const Page = () => {
   const [activeStockTab, setActiveStockTab] = useState("meter");
@@ -97,9 +98,9 @@ const Page = () => {
           </Tabs>
         );
       case "fieldActivityLedger":
-        return <div>Field Activity Ledger Content</div>;
+        return <FieldActivity_Meter />;
       case "testArchive":
-        return <div>Test Archive Content</div>;
+        return <TestArchive />;
       case "conflictsHarmonizer":
         return <div>Conflicts Harmonizer Content</div>;
       case "fileUploadAssets":
@@ -107,6 +108,8 @@ const Page = () => {
       case "hhInfoHistory":
         return <div>HH Info History Content</div>;
       case "hhFieldStatus":
+        return <div>HH Field Status Content</div>;
+      case "installAssets":
         return <div>HH Field Status Content</div>;
       default:
         return <div>Select a tab</div>;
@@ -128,59 +131,61 @@ const Page = () => {
 
   return (
     <MainLayout>
-      <div className="p-6">
+      <div className=" ">
         <h1 className="text-2xl font-bold mb-6">Assets Management</h1>
         <Tabs defaultValue="stockTracker" className="w-full">
-          <TabsList className="grid grid-cols-4 lg:grid-cols-8 gap-2 bg-clip-padding backdrop-filter backdrop-blur-xl bg-opacity-10 shadow-inner shadow-accent/50 bg-transparent border">
-            <TabsTrigger
-              className="data-[state=active]:text-primary"
-              value="stockTracker"
-            >
-              Stock Tracker
-            </TabsTrigger>
-            <TabsTrigger
-              className="data-[state=active]:text-primary"
-              value="masterData"
-            >
-              Master Data
-            </TabsTrigger>
-            <TabsTrigger
-              className="data-[state=active]:text-primary"
-              value="fieldActivityLedger"
-            >
-              Field Activity Ledger
-            </TabsTrigger>
-            <TabsTrigger
-              className="data-[state=active]:text-primary"
-              value="testArchive"
-            >
-              Test Archive
-            </TabsTrigger>
-            <TabsTrigger
-              className="data-[state=active]:text-primary"
-              value="conflictsHarmonizer"
-            >
-              Conflicts Harmonizer
-            </TabsTrigger>
-            <TabsTrigger
-              className="data-[state=active]:text-primary"
-              value="fileUploadAssets"
-            >
-              File Upload Assets
-            </TabsTrigger>
-            <TabsTrigger
-              className="data-[state=active]:text-primary"
-              value="hhInfoHistory"
-            >
-              HH Info History
-            </TabsTrigger>
-            <TabsTrigger
-              className="data-[state=active]:text-primary"
-              value="hhFieldStatus"
-            >
-              HH Field Status
-            </TabsTrigger>
-          </TabsList>
+          <div className="overflow-x-auto">
+            <TabsList className="inline-flex min-w-full bg-clip-padding backdrop-filter backdrop-blur-xl bg-opacity-10 shadow-inner shadow-accent/50 bg-transparent border">
+              <TabsTrigger
+                className="data-[state=active]:text-primary w-full whitespace-nowrap"
+                value="stockTracker"
+              >
+                Stock Tracker
+              </TabsTrigger>
+              <TabsTrigger
+                className="data-[state=active]:text-primary w-full whitespace-nowrap"
+                value="masterData"
+              >
+                Master Data
+              </TabsTrigger>
+              <TabsTrigger
+                className="data-[state=active]:text-primary w-full whitespace-nowrap"
+                value="fieldActivityLedger"
+              >
+                Field Activity Ledger
+              </TabsTrigger>
+              <TabsTrigger
+                className="data-[state=active]:text-primary w-full whitespace-nowrap"
+                value="testArchive"
+              >
+                Test Archive
+              </TabsTrigger>
+              <TabsTrigger
+                className="data-[state=active]:text-primary w-full whitespace-nowrap"
+                value="conflictsHarmonizer"
+              >
+                Conflicts Harmonizer
+              </TabsTrigger>
+              <TabsTrigger
+                className="data-[state=active]:text-primary w-full whitespace-nowrap"
+                value="fileUploadAssets"
+              >
+                File Upload Assets
+              </TabsTrigger>
+              <TabsTrigger
+                className="data-[state=active]:text-primary w-full whitespace-nowrap"
+                value="hhInfoHistory"
+              >
+                HH Info History
+              </TabsTrigger>
+              <TabsTrigger
+                className="data-[state=active]:text-primary w-full whitespace-nowrap"
+                value="hhFieldStatus"
+              >
+                HH Field Status
+              </TabsTrigger>
+            </TabsList>
+          </div>
           <div className="mt-6">
             {[
               "stockTracker",
@@ -208,5 +213,3 @@ const Page = () => {
 };
 
 export default Page;
-
-

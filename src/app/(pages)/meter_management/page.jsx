@@ -179,47 +179,49 @@ const MeterManagementPage = () => {
 
   return (
     <MainLayout>
-      <div className="p-6">
+      <div>
         <h1 className="text-2xl font-bold mb-6">Meter Management</h1>
         <Tabs defaultValue="eventsStream" className="w-full">
-          <TabsList className="grid grid-cols-3 lg:grid-cols-6 gap-2 bg-clip-padding backdrop-filter backdrop-blur-xl bg-opacity-10 shadow-inner shadow-accent/50 bg-transparent border">
-            <TabsTrigger
-              className="data-[state=active]:text-primary"
-              value="eventsStream"
-            >
-              Events Stream
-            </TabsTrigger>
-            <TabsTrigger
-              className="data-[state=active]:text-primary"
-              value="alarms"
-            >
-              Alarms
-            </TabsTrigger>
-            <TabsTrigger
-              className="data-[state=active]:text-primary"
-              value="configUpdate"
-            >
-              Config & Update
-            </TabsTrigger>
-            <TabsTrigger
-              className="data-[state=active]:text-primary"
-              value="meterReleaseManagement"
-            >
-              Meter Release Management
-            </TabsTrigger>
-            <TabsTrigger
-              className="data-[state=active]:text-primary"
-              value="meterInsightPanel"
-            >
-              Meter Insight Panel
-            </TabsTrigger>
-            <TabsTrigger
-              className="data-[state=active]:text-primary"
-              value="installationArchive"
-            >
-              Installation Archive
-            </TabsTrigger>
-          </TabsList>
+          <div className="overflow-x-auto">
+            <TabsList className="inline-flex min-w-full bg-clip-padding backdrop-filter backdrop-blur-xl bg-opacity-10 shadow-inner shadow-accent/50 bg-transparent border">
+              <TabsTrigger
+                className="data-[state=active]:text-primary w-full whitespace-nowrap"
+                value="eventsStream"
+              >
+                Events Stream
+              </TabsTrigger>
+              <TabsTrigger
+                className="data-[state=active]:text-primary w-full whitespace-nowrap"
+                value="alarms"
+              >
+                Alarms
+              </TabsTrigger>
+              <TabsTrigger
+                className="data-[state=active]:text-primary w-full whitespace-nowrap"
+                value="configUpdate"
+              >
+                Config & Update
+              </TabsTrigger>
+              <TabsTrigger
+                className="data-[state=active]:text-primary w-full whitespace-nowrap"
+                value="meterReleaseManagement"
+              >
+                Meter Release Management
+              </TabsTrigger>
+              <TabsTrigger
+                className="data-[state=active]:text-primary w-full whitespace-nowrap"
+                value="meterInsightPanel"
+              >
+                Meter Insight Panel
+              </TabsTrigger>
+              <TabsTrigger
+                className="data-[state=active]:text-primary w-full whitespace-nowrap"
+                value="installationArchive"
+              >
+                Installation Archive
+              </TabsTrigger>
+            </TabsList>
+          </div>
           <div className="mt-6">
             {[
               "eventsStream",

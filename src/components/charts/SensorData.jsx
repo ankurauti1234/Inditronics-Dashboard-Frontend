@@ -137,14 +137,12 @@ export default function SensorData() {
     <Card className="bg-transparent bg-clip-padding backdrop-filter backdrop-blur-xl bg-opacity-10 shadow-inner shadow-accent/50">
       {/* <Toaster /> */}
       <CardHeader className="px-4 py-2 border-b">
-        <CardTitle className="text-lg">Live UltraSonic Sensor</CardTitle>
+        <CardTitle className="text-lg">Live Device Data</CardTitle>
       </CardHeader>
-      <CardContent className="flex flex-col lg:flex-row w-full items-center justify-evenly gap-4 p-2">
+      <CardContent className="flex flex-col w-full items-center justify-evenly gap-4 p-4">
         <Card className="w-full">
           <CardHeader className="px-4 py-2 border-b">
-            <CardTitle className="text-lg">
-              Distance Over Time (Line Chart)
-            </CardTitle>
+            <CardTitle className="text-lg">Distance Over Time</CardTitle>
           </CardHeader>
           <CardContent className="w-full">
             <div className="h-[333px] w-full pt-4">
@@ -204,186 +202,186 @@ export default function SensorData() {
             </div>
           </CardContent>
         </Card>
-        <Card className="w-full">
-          <CardHeader className="flex justify-between items-center flex-row px-4 py-2 border-b">
-            <CardTitle className="text-lg w-fit">Sensor Data Table</CardTitle>
-            <div className="flex w-fit justify-between items-center gap-2">
-              <Popover open={isFilterOpen} onOpenChange={setIsFilterOpen}>
-                <PopoverTrigger asChild>
-                  <Button variant="outline">
-                    <Filter className="mr-2 h-4 w-4" /> Filter
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-80">
-                  <div className="grid gap-4">
-                    <div className="space-y-2">
-                      <h4 className="font-medium leading-none">Date Range</h4>
-                      <p className="text-sm text-muted-foreground">
-                        Select the start and end dates for filtering.
-                      </p>
-                    </div>
-                    <div className="grid gap-2">
-                      <Popover>
-                        <PopoverTrigger asChild>
-                          <Button
-                            variant={"outline"}
-                            className={cn(
-                              "w-full justify-start text-left font-normal",
-                              !startDate && "text-muted-foreground"
-                            )}
-                          >
-                            <CalendarIcon className="mr-2 h-4 w-4" />
-                            {startDate ? (
-                              format(startDate, "dd/MM/yy")
-                            ) : (
-                              <span>Pick a start date</span>
-                            )}
-                          </Button>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0" align="start">
-                          <Calendar
-                            mode="single"
-                            selected={startDate}
-                            onSelect={setStartDate}
-                            initialFocus
-                          />
-                        </PopoverContent>
-                      </Popover>
-                      <Popover>
-                        <PopoverTrigger asChild>
-                          <Button
-                            variant={"outline"}
-                            className={cn(
-                              "w-full justify-start text-left font-normal",
-                              !endDate && "text-muted-foreground"
-                            )}
-                          >
-                            <CalendarIcon className="mr-2 h-4 w-4" />
-                            {endDate ? (
-                              format(endDate, "dd/MM/yy")
-                            ) : (
-                              <span>Pick an end date</span>
-                            )}
-                          </Button>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0" align="start">
-                          <Calendar
-                            mode="single"
-                            selected={endDate}
-                            onSelect={setEndDate}
-                            initialFocus
-                          />
-                        </PopoverContent>
-                      </Popover>
-                    </div>
-                    <Button onClick={handleFilterApply}>Apply Filter</Button>
-                    <Button variant="outline" onClick={handleFilterReset}>
-                      Reset Filter
+        <CardContent className="flex flex-col lg:flex-row w-full items-center p-0 gap-4">
+          <Card className="w-full">
+            <CardHeader className="flex justify-between items-center flex-row px-4 py-2 border-b">
+              <CardTitle className="text-lg w-fit">Device Data</CardTitle>
+              <div className="flex w-fit justify-between items-center gap-2">
+                <Popover open={isFilterOpen} onOpenChange={setIsFilterOpen}>
+                  <PopoverTrigger asChild>
+                    <Button variant="outline">
+                      <Filter className="mr-2 h-4 w-4" /> Filter
                     </Button>
-                  </div>
-                </PopoverContent>
-              </Popover>
-              <Button variant="outline" onClick={fetchData}>
-                <RefreshCw className="mr-2 h-4 w-4" /> Refresh
-              </Button>
-              <Button
-                variant="outline"
-                onClick={() => handlePageChange(currentPage - 1)}
-                disabled={currentPage === 1}
-              >
-                <ChevronLeft className="h-4 w-4" />
-                <span className="sr-only">Previous page</span>
-              </Button>
-              <span>
-                Page {currentPage} of {totalPages}
-              </span>
-              <Button
-                variant="outline"
-                onClick={() => handlePageChange(currentPage + 1)}
-                disabled={currentPage === totalPages}
-              >
-                <ChevronRight className="h-4 w-4" />
-                <span className="sr-only">Next page</span>
-              </Button>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Timestamp</TableHead>
-                  <TableHead>Distance</TableHead>
-                  <TableHead>Status</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {sensorData.map((data, index) => (
-                  <TableRow key={index}>
-                    <TableCell>
-                      {format(
-                        new Date(data.timestamp),
-                        "MMM d, yyyy h:mm:ss a"
-                      )}
-                    </TableCell>
-                    <TableCell>{data.distance.toFixed(2)} CM</TableCell>
-                    <TableCell>{data.isAlert ? "Alert" : "Normal"}</TableCell>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-80">
+                    <div className="grid gap-4">
+                      <div className="space-y-2">
+                        <h4 className="font-medium leading-none">Date Range</h4>
+                        <p className="text-sm text-muted-foreground">
+                          Select the start and end dates for filtering.
+                        </p>
+                      </div>
+                      <div className="grid gap-2">
+                        <Popover>
+                          <PopoverTrigger asChild>
+                            <Button
+                              variant={"outline"}
+                              className={cn(
+                                "w-full justify-start text-left font-normal",
+                                !startDate && "text-muted-foreground"
+                              )}
+                            >
+                              <CalendarIcon className="mr-2 h-4 w-4" />
+                              {startDate ? (
+                                format(startDate, "dd/MM/yy")
+                              ) : (
+                                <span>Pick a start date</span>
+                              )}
+                            </Button>
+                          </PopoverTrigger>
+                          <PopoverContent className="w-auto p-0" align="start">
+                            <Calendar
+                              mode="single"
+                              selected={startDate}
+                              onSelect={setStartDate}
+                              initialFocus
+                            />
+                          </PopoverContent>
+                        </Popover>
+                        <Popover>
+                          <PopoverTrigger asChild>
+                            <Button
+                              variant={"outline"}
+                              className={cn(
+                                "w-full justify-start text-left font-normal",
+                                !endDate && "text-muted-foreground"
+                              )}
+                            >
+                              <CalendarIcon className="mr-2 h-4 w-4" />
+                              {endDate ? (
+                                format(endDate, "dd/MM/yy")
+                              ) : (
+                                <span>Pick an end date</span>
+                              )}
+                            </Button>
+                          </PopoverTrigger>
+                          <PopoverContent className="w-auto p-0" align="start">
+                            <Calendar
+                              mode="single"
+                              selected={endDate}
+                              onSelect={setEndDate}
+                              initialFocus
+                            />
+                          </PopoverContent>
+                        </Popover>
+                      </div>
+                      <Button onClick={handleFilterApply}>Apply Filter</Button>
+                      <Button variant="outline" onClick={handleFilterReset}>
+                        Reset Filter
+                      </Button>
+                    </div>
+                  </PopoverContent>
+                </Popover>
+                <Button variant="outline" onClick={fetchData}>
+                  <RefreshCw className="mr-2 h-4 w-4" /> Refresh
+                </Button>
+                <Button
+                  variant="outline"
+                  onClick={() => handlePageChange(currentPage - 1)}
+                  disabled={currentPage === 1}
+                >
+                  <ChevronLeft className="h-4 w-4" />
+                  <span className="sr-only">Previous page</span>
+                </Button>
+                <span>
+                  Page {currentPage} of {totalPages}
+                </span>
+                <Button
+                  variant="outline"
+                  onClick={() => handlePageChange(currentPage + 1)}
+                  disabled={currentPage === totalPages}
+                >
+                  <ChevronRight className="h-4 w-4" />
+                  <span className="sr-only">Next page</span>
+                </Button>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Timestamp</TableHead>
+                    <TableHead>Distance</TableHead>
+                    <TableHead>Status</TableHead>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </CardContent>
-        </Card>
-      </CardContent>
-      <CardContent>
-        <Card>
-          <CardHeader className="flex justify-between items-center flex-row px-4 py-2 border-b">
-            <CardTitle className="text-lg">Alerts (Latest on Top)</CardTitle>
-            <div className="flex items-center gap-2">
-              <Button
-                variant="outline"
-                onClick={() => handleAlertPageChange(alertsPage - 1)}
-                disabled={alertsPage === 1}
-              >
-                <ChevronLeft className="h-4 w-4" />
-                <span className="sr-only">Previous page</span>
-              </Button>
-              <span>
-                Page {alertsPage} of {totalAlertPages}
-              </span>
-              <Button
-                variant="outline"
-                onClick={() => handleAlertPageChange(alertsPage + 1)}
-                disabled={alertsPage === totalAlertPages}
-              >
-                <ChevronRight className="h-4 w-4" />
-                <span className="sr-only">Next page</span>
-              </Button>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Timestamp</TableHead>
-                  <TableHead>Distance</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {paginatedAlerts.map((alert, index) => (
-                  <TableRow key={index}>
-                    <TableCell>
-                      {format(
-                        new Date(alert.timestamp),
-                        "MMM d, yyyy h:mm:ss a"
-                      )}
-                    </TableCell>
-                    <TableCell>{alert.distance.toFixed(2)} CM</TableCell>
+                </TableHeader>
+                <TableBody>
+                  {sensorData.map((data, index) => (
+                    <TableRow key={index}>
+                      <TableCell>
+                        {format(
+                          new Date(data.timestamp),
+                          "MMM d, yyyy h:mm:ss a"
+                        )}
+                      </TableCell>
+                      <TableCell>{data.distance.toFixed(2)} CM</TableCell>
+                      <TableCell>{data.isAlert ? "Alert" : "Normal"}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
+          <Card className="w-full">
+            <CardHeader className="flex justify-between items-center flex-row px-4 py-2 border-b">
+              <CardTitle className="text-lg">Alerts </CardTitle>
+              <div className="flex items-center gap-2">
+                <Button
+                  variant="outline"
+                  onClick={() => handleAlertPageChange(alertsPage - 1)}
+                  disabled={alertsPage === 1}
+                >
+                  <ChevronLeft className="h-4 w-4" />
+                  <span className="sr-only">Previous page</span>
+                </Button>
+                <span>
+                  Page {alertsPage} of {totalAlertPages}
+                </span>
+                <Button
+                  variant="outline"
+                  onClick={() => handleAlertPageChange(alertsPage + 1)}
+                  disabled={alertsPage === totalAlertPages}
+                >
+                  <ChevronRight className="h-4 w-4" />
+                  <span className="sr-only">Next page</span>
+                </Button>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Timestamp</TableHead>
+                    <TableHead>Distance</TableHead>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </CardContent>
-        </Card>
+                </TableHeader>
+                <TableBody>
+                  {paginatedAlerts.map((alert, index) => (
+                    <TableRow key={index}>
+                      <TableCell>
+                        {format(
+                          new Date(alert.timestamp),
+                          "MMM d, yyyy h:mm:ss a"
+                        )}
+                      </TableCell>
+                      <TableCell>{alert.distance.toFixed(2)} CM</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
+        </CardContent>
       </CardContent>
     </Card>
   );

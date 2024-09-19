@@ -51,7 +51,8 @@
     "sonner": "^1.5.0",
     "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7",
-    "three": "^0.168.0"
+    "three": "^0.168.0",
+    "zustand": "^5.0.0-rc.2"
   },
   "devDependencies": {
     "postcss": "^8",
