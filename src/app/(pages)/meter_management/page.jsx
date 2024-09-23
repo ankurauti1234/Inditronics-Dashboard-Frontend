@@ -3,16 +3,31 @@
 import MainLayout from "@/components/layouts/MainLayout";
 import React, { useEffect, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import EventStreamRecords from "@/components/tabs/meter_management/EventStreamRecords";
+import EventStreamRecords from "@/components/tabs/meter_management/event_stream/EventStreamRecords";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import { cn } from "@/lib/utils";
+import Plot from "@/components/tabs/meter_management/event_stream/Plot";
+import RetrivalRequest from "@/components/tabs/meter_management/event_stream/RetrivalRequest";
+import ViewAndUpdate from "@/components/tabs/meter_management/config_update/ViewAndUpdate";
+import ConfigHistory from "@/components/tabs/meter_management/config_update/ConfigHistory";
+import MeterReleaseSearch from "@/components/tabs/meter_management/meter_release_management/MeterReleaseSearch";
+import MeterReleaseHistory from "@/components/tabs/meter_management/meter_release_management/MeterReleaseHistory";
+import MeterReleaseSubmitJob from "@/components/tabs/meter_management/meter_release_management/MeterReleaseSubmitJob";
+import MeterReleaseViewJob from "@/components/tabs/meter_management/meter_release_management/MeterReleaseViewJob";
+import ViewReleaseSummary from "@/components/tabs/meter_management/ViewReleaseSummary";
+import InProgressInstallationComponent from "@/components/tabs/asset_management/install_asset/InProgress";
+import InstallationArchive from "@/components/tabs/meter_management/InstallationArchive";
+import FieldAlarms from "@/components/tabs/meter_management/alerts/FieldAlarms";
+import DerivedAlarms from "@/components/tabs/meter_management/alerts/DerivedAlarms";
+import Configurations from "@/components/tabs/meter_management/alerts/Configurations";
 
 const MeterManagementPage = () => {
   const [activeEventsStreamTab, setActiveEventsStreamTab] = useState("records");
   const [activeConfigUpdateTab, setActiveConfigUpdateTab] =
     useState("viewUpdate");
   const [activeMeterReleaseTab, setActiveMeterReleaseTab] = useState("search");
+  const [activeAlarmsTab, setActiveAlarmsTab] = useState("fieldAlarms");
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
@@ -68,22 +83,58 @@ const MeterManagementPage = () => {
             </TabsList>
 
             <div key={activeEventsStreamTab} className="opacity-100 scale-1">
-              {" "}
-              {/* Removed motion */}
               <TabsContent value="records">
                 <EventStreamRecords />
               </TabsContent>
               <TabsContent value="plot">
-                Events Stream - Plot Content
+                <Plot/>
               </TabsContent>
               <TabsContent value="retrievalRequest">
-                Events Stream - Retrieval Request Content
+                <RetrivalRequest/>
               </TabsContent>
             </div>
           </Tabs>
         );
       case "alarms":
-        return <div>Alarms Content</div>;
+        return (
+          <Tabs defaultValue="fieldAlarms" className="w-full">
+            <TabsList className="bg-clip-padding backdrop-filter backdrop-blur-xl bg-opacity-10 shadow-inner shadow-accent/50 bg-transparent border">
+              <TabsTrigger
+                className="data-[state=active]:text-primary"
+                value="fieldAlarms"
+                onClick={() => setActiveAlarmsTab("fieldAlarms")}
+              >
+                Field Alarms
+              </TabsTrigger>
+              <TabsTrigger
+                className="data-[state=active]:text-primary"
+                value="derived"
+                onClick={() => setActiveAlarmsTab("derived")}
+              >
+                Derived Alarms
+              </TabsTrigger>
+              <TabsTrigger
+                className="data-[state=active]:text-primary"
+                value="configurations"
+                onClick={() => setActiveAlarmsTab("configurations")}
+              >
+                Configuration
+              </TabsTrigger>
+            </TabsList>
+
+            <div key={activeConfigUpdateTab} className="opacity-100 scale-1">
+              <TabsContent value="fieldAlarms">
+                <FieldAlarms />
+              </TabsContent>
+              <TabsContent value="derived">
+                <DerivedAlarms/>
+              </TabsContent>
+              <TabsContent value="configurations">
+                <Configurations/>
+              </TabsContent>
+            </div>
+          </Tabs>
+        );
       case "configUpdate":
         return (
           <Tabs defaultValue="viewUpdate" className="w-full">
@@ -105,13 +156,11 @@ const MeterManagementPage = () => {
             </TabsList>
 
             <div key={activeConfigUpdateTab} className="opacity-100 scale-1">
-              {" "}
-              {/* Removed motion */}
               <TabsContent value="viewUpdate">
-                Config & Update - View & Update Content
+                <ViewAndUpdate/>
               </TabsContent>
               <TabsContent value="history">
-                Config & Update - History Content
+                <ConfigHistory/>
               </TabsContent>
             </div>
           </Tabs>
@@ -151,27 +200,25 @@ const MeterManagementPage = () => {
             </TabsList>
 
             <div key={activeMeterReleaseTab} className="opacity-100 scale-1">
-              {" "}
-              {/* Removed motion */}
               <TabsContent value="search">
-                Meter Release Management - Search Content
+                <MeterReleaseSearch/>
               </TabsContent>
               <TabsContent value="history">
-                Meter Release Management - History Content
+                <MeterReleaseHistory/>
               </TabsContent>
               <TabsContent value="submitJob">
-                Meter Release Management - Submit Job Content
+                <MeterReleaseSubmitJob/>
               </TabsContent>
               <TabsContent value="viewJob">
-                Meter Release Management - View Job Content
+                <MeterReleaseViewJob/>
               </TabsContent>
             </div>
           </Tabs>
         );
       case "meterInsightPanel":
-        return <div>Meter Insight Panel Content</div>;
+        return <ViewReleaseSummary/>;
       case "installationArchive":
-        return <div>Installation Archive Content</div>;
+        return <InstallationArchive/>;
       default:
         return <div>Select a tab</div>;
     }
@@ -237,8 +284,6 @@ const MeterManagementPage = () => {
                 className="bg-clip-padding backdrop-filter backdrop-blur-xl bg-opacity-10 shadow-inner shadow-accent/50 border p-2 rounded-lg"
               >
                 <div key={tab} className="opacity-100 scale-1">
-                  {" "}
-                  {/* Removed motion */}
                   {renderTabContent(tab)}
                 </div>
               </TabsContent>

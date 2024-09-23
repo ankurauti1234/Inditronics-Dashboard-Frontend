@@ -25,7 +25,14 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import MainLayout from "@/components/layouts/MainLayout";
-import LiveMonitorMap from "@/components/maps/LiveMonitorMap";
+import dynamic from "next/dynamic";
+
+const LiveMonitorMap = dynamic(
+  () => import("@/components/maps/LiveMonitorMap"),
+  {
+    ssr: false, // This will disable server-side rendering for this component
+  }
+);
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import { cn } from "@/lib/utils";

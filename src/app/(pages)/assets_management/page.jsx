@@ -7,18 +7,62 @@ import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import { cn } from "@/lib/utils";
 
-import Meter from "@/components/tabs/asset_management/stock_tracker/Meter";
-import Remote from "@/components/tabs/asset_management/stock_tracker/Remote";
-import Summary from "@/components/tabs/asset_management/stock_tracker/Summary";
+import dynamic from "next/dynamic";
 
-import MasterData_Meter from "@/components/tabs/asset_management/master_data/MasterData_Meter";
-import MasterData_Remote from "@/components/tabs/asset_management/master_data/MasterData_Remote";
-import FieldActivity_Meter from "@/components/tabs/asset_management/field_ativity_ledger/FieldActivity_Meter";
-import TestArchive from "@/components/tabs/asset_management/TestArchive";
+const Meter = dynamic(() =>
+  import("@/components/tabs/asset_management/stock_tracker/Meter")
+);
+const Remote = dynamic(() =>
+  import("@/components/tabs/asset_management/stock_tracker/Remote")
+);
+const Summary = dynamic(() =>
+  import("@/components/tabs/asset_management/stock_tracker/Summary")
+);
+
+const MasterData_Meter = dynamic(() =>
+  import("@/components/tabs/asset_management/master_data/MasterData_Meter")
+);
+const MasterData_Remote = dynamic(() =>
+  import("@/components/tabs/asset_management/master_data/MasterData_Remote")
+);
+const FieldActivity_Meter = dynamic(() =>
+  import(
+    "@/components/tabs/asset_management/field_ativity_ledger/FieldActivity_Meter"
+  )
+);
+const TestArchive = dynamic(() =>
+  import("@/components/tabs/asset_management/TestArchive")
+);
+const ConflictHarmonizer = dynamic(() =>
+  import("@/components/tabs/asset_management/ConflictHarmonizer")
+);
+const HHInfoHistory = dynamic(() =>
+  import("@/components/tabs/asset_management/HHInfoHistory")
+);
+const HHFieldStatus = dynamic(() =>
+  import("@/components/tabs/asset_management/HHFieldStatus")
+);
+const InstallationComponent = dynamic(() =>
+  import("@/components/tabs/asset_management/install_asset/Installation")
+);
+const ReplacementComponent = dynamic(() =>
+  import("@/components/tabs/asset_management/install_asset/Replacement")
+);
+const UninstallationComponent = dynamic(() =>
+  import("@/components/tabs/asset_management/install_asset/Unistallation")
+);
+const InProgressInstallationComponent = dynamic(() =>
+  import("@/components/tabs/asset_management/install_asset/InProgress")
+);
+const FailedInstallationComponent = dynamic(() =>
+  import("@/components/tabs/asset_management/install_asset/FailedInstallation")
+);
+
 
 const Page = () => {
   const [activeStockTab, setActiveStockTab] = useState("meter");
   const [activeMasterDataTab, setActiveMasterDataTab] = useState("meter");
+  const [activeInstallAssetsTab, setActiveInstallAssetsTab] = useState("install");
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
@@ -102,15 +146,70 @@ const Page = () => {
       case "testArchive":
         return <TestArchive />;
       case "conflictsHarmonizer":
-        return <div>Conflicts Harmonizer Content</div>;
+        return <ConflictHarmonizer/>;
       case "fileUploadAssets":
         return <FileUploadAssets />;
       case "hhInfoHistory":
-        return <div>HH Info History Content</div>;
+        return <HHInfoHistory/>;
       case "hhFieldStatus":
-        return <div>HH Field Status Content</div>;
+        return <HHFieldStatus/>;
       case "installAssets":
-        return <div>HH Field Status Content</div>;
+                return (
+                  <Tabs defaultValue="install" className="w-full">
+                    <TabsList className="bg-clip-padding backdrop-filter backdrop-blur-xl bg-opacity-10 shadow-inner shadow-accent/50 bg-transparent border">
+                      <TabsTrigger
+                        className="data-[state=active]:text-primary"
+                        value="install"
+                        onClick={() => setActiveInstallAssetsTab("install")}
+                      >
+                        Installation
+                      </TabsTrigger>
+                      <TabsTrigger
+                        className="data-[state=active]:text-primary"
+                        value="replace"
+                        onClick={() => setActiveInstallAssetsTab("replace")}
+                      >
+                        Replacement
+                      </TabsTrigger>
+                      <TabsTrigger
+                        className="data-[state=active]:text-primary"
+                        value="uninstall"
+                        onClick={() => setActiveInstallAssetsTab("uninstall")}
+                      >
+                        Uninstall
+                      </TabsTrigger>
+                      <TabsTrigger
+                        className="data-[state=active]:text-primary"
+                        value="inprogress"
+                        onClick={() => setActiveInstallAssetsTab("inprogress")}
+                      >
+                        In Progress
+                      </TabsTrigger>
+                      <TabsTrigger
+                        className="data-[state=active]:text-primary"
+                        value="failed"
+                        onClick={() => setActiveInstallAssetsTab("failed")}
+                      >
+                        Failed Installation
+                      </TabsTrigger>
+                    </TabsList>
+                    <TabsContent value="install">
+                      <InstallationComponent />
+                    </TabsContent>
+                    <TabsContent value="replace">
+                      <ReplacementComponent />
+                    </TabsContent>
+                    <TabsContent value="uninstall">
+                      <UninstallationComponent />
+                    </TabsContent>
+                    <TabsContent value="inprogress">
+                      <InProgressInstallationComponent />
+                    </TabsContent>
+                    <TabsContent value="failed">
+                      <FailedInstallationComponent />
+                    </TabsContent>
+                  </Tabs>
+                );
       default:
         return <div>Select a tab</div>;
     }
@@ -184,6 +283,12 @@ const Page = () => {
               >
                 HH Field Status
               </TabsTrigger>
+              <TabsTrigger
+                className="data-[state=active]:text-primary w-full whitespace-nowrap"
+                value="installAssets"
+              >
+                Install Assets
+              </TabsTrigger>
             </TabsList>
           </div>
           <div className="mt-6">
@@ -196,6 +301,7 @@ const Page = () => {
               "fileUploadAssets",
               "hhInfoHistory",
               "hhFieldStatus",
+              "installAssets",
             ].map((tab) => (
               <TabsContent
                 key={tab}

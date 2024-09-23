@@ -38,9 +38,9 @@ const dates = [
   "2023-05-01",
 ];
 const dummyData = {
-  APM1: generateData("APM1", dates),
-  APM2: generateData("APM2", dates),
-  APM3: generateData("APM3", dates),
+  Device1: generateData("Device1", dates),
+  Device2: generateData("Device2", dates),
+  Device3: generateData("Device3", dates),
 };
 
 // Custom tooltip component
@@ -94,19 +94,19 @@ export default function APMStatistics() {
     selectedAPM === "ALL"
       ? dates.map((date) => ({
           date,
-          APM1: dummyData.APM1.find((d) => d.date === date)[selectedMetric],
-          APM2: dummyData.APM2.find((d) => d.date === date)[selectedMetric],
-          APM3: dummyData.APM3.find((d) => d.date === date)[selectedMetric],
+          Device1: dummyData.Device1.find((d) => d.date === date)[selectedMetric],
+          Device2: dummyData.Device2.find((d) => d.date === date)[selectedMetric],
+          Device3: dummyData.Device3.find((d) => d.date === date)[selectedMetric],
         }))
       : dummyData[selectedAPM];
 
   // Set color based on the selected APM
   const barColor =
-    selectedAPM === "APM1"
+    selectedAPM === "Device1"
       ? "hsl(var(--chart-1))"
-      : selectedAPM === "APM2"
+      : selectedAPM === "Device2"
       ? "hsl(var(--chart-2))"
-      : selectedAPM === "APM3"
+      : selectedAPM === "Device3"
       ? "hsl(var(--chart-3))"
       : "hsl(var(--chart-1))"; // Default color for ALL
 
@@ -125,9 +125,9 @@ export default function APMStatistics() {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="ALL">ALL</SelectItem>
-                  <SelectItem value="APM1">APM1</SelectItem>
-                  <SelectItem value="APM2">APM2</SelectItem>
-                  <SelectItem value="APM3">APM3</SelectItem>
+                  <SelectItem value="Device1">Device1</SelectItem>
+                  <SelectItem value="Device2">Device2</SelectItem>
+                  <SelectItem value="Device3">Device3</SelectItem>
                 </SelectContent>
               </Select>
               <Select value={selectedMetric} onValueChange={setSelectedMetric}>
@@ -147,15 +147,15 @@ export default function APMStatistics() {
             <div className="flex gap-3 justify-center border px-2 rounded-lg h-10 ">
               <div className="flex items-center">
                 <div className="w-3 h-3 rounded-full mr-2 bg-[hsl(var(--chart-1))]"></div>
-                <span className="text-sm">APM1</span>
+                <span className="text-sm">Device1</span>
               </div>
               <div className="flex items-center">
                 <div className="w-3 h-3 rounded-full mr-2  bg-[hsl(var(--chart-2))]"></div>
-                <span className="text-sm">APM2</span>
+                <span className="text-sm">Device2</span>
               </div>
               <div className="flex items-center">
                 <div className="w-3 h-3 rounded-full mr-2 bg-[hsl(var(--chart-3))]"></div>
-                <span className="text-sm">APM3</span>
+                <span className="text-sm">Device3</span>
               </div>
             </div>
           </div>
@@ -177,17 +177,17 @@ export default function APMStatistics() {
               {selectedAPM === "ALL" ? (
                 <>
                   <Bar
-                    dataKey="APM1"
+                    dataKey="Device1"
                     fill="hsl(var(--chart-1))"
                     radius={[4, 4, 0, 0]}
                   />
                   <Bar
-                    dataKey="APM2"
+                    dataKey="Device2"
                     fill="hsl(var(--chart-2))"
                     radius={[4, 4, 0, 0]}
                   />
                   <Bar
-                    dataKey="APM3"
+                    dataKey="Device3"
                     fill="hsl(var(--chart-3))"
                     radius={[4, 4, 0, 0]}
                   />

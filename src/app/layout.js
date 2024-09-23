@@ -21,7 +21,7 @@ export default function RootLayout({ children }) {
     '--tw-gradient-to': 'hsl(var(--accent)/0.05)',
   }}
 >
-        <svg
+        {/* <svg
           className="absolute -z-50 -top-10 opacity-20"
           width="100%"
           height="100%"
@@ -57,7 +57,7 @@ export default function RootLayout({ children }) {
             transform="translate(0,0)"
             fill="url(#a)"
           />
-        </svg>
+        </svg> */}
         <div className="relative flex min-h-screen w-full flex-col">
           <div className="flex-1 w-full">{children}</div>
         </div>

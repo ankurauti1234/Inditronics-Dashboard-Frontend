@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
@@ -24,7 +23,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import MainLayout from "@/components/layouts/MainLayout";
 import APMStatistics from "@/components/charts/APMStatistics";
-import APMLocations from "@/components/maps/APMLocations";
+import dynamic from "next/dynamic";
+
+const APMLocations = dynamic(() => import("@/components/maps/APMLocations"), {
+  ssr: false, // This will disable server-side rendering for this component
+});
 import SPC from "@/components/charts/SPC";
 import { cn } from "@/lib/utils";
 import {
@@ -40,7 +43,7 @@ import {
 } from "lucide-react";
 import Analytics from "@/components/charts/Analytics";
 import SensorData from "@/components/charts/SensorData";
-import Analytics2 from "@/components/charts/Analytics2";
+import AlertCards from "@/components/tabs/dashboard/AlertCards";
 
 const iconMap = {
   TAMPER_ALARM: <PocketKnife className="h-4 w-4 text-primary" />,
@@ -202,47 +205,7 @@ export default function Dashboard() {
             </TabsTrigger>
           </TabsList>
           <TabsContent value="overview">
-            <div className="bg-clip-padding backdrop-filter backdrop-blur-xl bg-opacity-10 shadow-inner shadow-accent/50 border rounded-lg">
-              <div className="flex items-center justify-between px-4 py-2 border-b">
-                <p className="text-xl font-bold">Alerts</p>
-                <RefreshCw
-                  className="h-6 w-6 cursor-pointer hover:bg-secondary border p-1 rounded"
-                  onClick={handleRefresh}
-                />
-              </div>
-              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5 p-2">
-                {alarmData.map((alarm, index) => (
-                  <Card
-                    key={index}
-                    onClick={() => handleCardClick(alarm)}
-                    className="cursor-pointer bg-card hover:bg-primary/20 hover:border-ring transition-colors"
-                  >
-                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                      <CardTitle className="text-sm font-medium">
-                        {alarm.alert.replace("_", " ")}
-                      </CardTitle>
-                      {iconMap[alarm.alert]}
-                    </CardHeader>
-                    <CardContent>
-                      <div className="text-2xl font-bold">
-                        {alarm.total || 0}
-                      </div>
-                      <div className="flex w-full flex-wrap gap-2">
-                        <p className="text-xs text-muted-foreground">
-                          Generated: {alarm.generated || 0}
-                        </p>
-                        <p className="text-xs text-muted-foreground">
-                          Pending: {alarm.pending || 0}
-                        </p>
-                        <p className="text-xs text-muted-foreground">
-                          Resolved: {alarm.resolved || 0}
-                        </p>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            </div>
+            <AlertCards onCardClick={handleCardClick} />
 
             <div className="flex flex-col gap-8 lg:flex-row mt-8">
               <APMStatistics />
@@ -259,7 +222,7 @@ export default function Dashboard() {
           <TabsContent value="analytics">
             <div className="grid gap-8">
               <Analytics />
-              <Analytics2/>
+              {/* <Analytics2/> */}
             </div>
           </TabsContent>
         </Tabs>

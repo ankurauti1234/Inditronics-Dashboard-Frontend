@@ -14,17 +14,17 @@ import L from "leaflet";
 
 // Dummy data for Maharashtra locations
 const locations = {
-  APM1: [
+  Device1: [
     { name: "Mumbai", lat: 19.076, lon: 72.8777 },
     { name: "Pune", lat: 18.5204, lon: 73.8567 },
     { name: "Nagpur", lat: 21.1458, lon: 79.0882 },
   ],
-  APM2: [
+  Device2: [
     { name: "Nashik", lat: 19.9975, lon: 73.7898 },
     { name: "Aurangabad", lat: 19.8762, lon: 75.3433 },
     { name: "Solapur", lat: 17.6599, lon: 75.9064 },
   ],
-  APM3: [
+  Device3: [
     { name: "Kolhapur", lat: 16.705, lon: 74.2433 },
     { name: "Amravati", lat: 20.932, lon: 77.7523 },
     { name: "Nanded", lat: 19.1383, lon: 77.321 },
@@ -42,9 +42,9 @@ const createCustomIcon = (color) => {
 };
 
 const icons = {
-  APM1: createCustomIcon("hsl(var(--chart-1))"),
-  APM2: createCustomIcon("hsl(var(--chart-2))"),
-  APM3: createCustomIcon("hsl(var(--chart-3))"),
+  Device1: createCustomIcon("hsl(var(--chart-1))"),
+  Device2: createCustomIcon("hsl(var(--chart-2))"),
+  Device3: createCustomIcon("hsl(var(--chart-3))"),
 };
 
 export default function APMLocations() {
@@ -84,10 +84,10 @@ export default function APMLocations() {
               <SelectValue placeholder="Select APM" />
             </SelectTrigger>
             <SelectContent className="z-[9999]">
-              <SelectItem value="ALL">All APMs</SelectItem>
-              <SelectItem value="APM1">APM1</SelectItem>
-              <SelectItem value="APM2">APM2</SelectItem>
-              <SelectItem value="APM3">APM3</SelectItem>
+              <SelectItem value="ALL">All Devices</SelectItem>
+              <SelectItem value="Device1">Device1</SelectItem>
+              <SelectItem value="Device2">Device2</SelectItem>
+              <SelectItem value="Device3">Device3</SelectItem>
             </SelectContent>
           </Select>
           <div className="flex justify-center space-x-4 border px-2 rounded-lg">
