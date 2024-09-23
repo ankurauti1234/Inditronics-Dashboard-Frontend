@@ -20,24 +20,45 @@ const LiveMonitorMap = ({ devices }) => {
     }
 
     return (
-        <MapContainer center={[20, 0]} zoom={2} style={{ height: "40vh", width: "100%" }} className="border rounded-lg">
-            <TileLayer url="https://tiles.stadiamaps.com/tiles/outdoors/{z}/{x}/{y}{r}.png" />
-            {devices.map((device) => (
-                <Marker key={device.meterId} position={[device.lat, device.lon]} icon={L.divIcon({
-                    className: 'custom-marker',
-                    html: `<div class="w-4 h-4 rounded-full ${device.status === "online" ? "bg-green-400 border-2 border-green-800" : "bg-destructive border-2 border-red-800"}"></div>`,
-                    iconSize: [20, 20],
-                })}>
-                    <Popup>
-                        <strong>{device.lastChannelWatched}</strong><br />
-                        Meter ID: {device.meterId}<br />
-                        Household ID: {device.householdId}<br />
-                        Status: {device.status}<br />
-                        Household Status: {device.householdStatus}<br />
-                    </Popup>
-                </Marker>
-            ))}
-        </MapContainer>
+      <MapContainer
+        center={[20, 0]}
+        zoom={2}
+        style={{ height: "40vh", width: "100%" }}
+        className="border rounded-lg"
+      >
+        <TileLayer
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        />
+        {devices.map((device) => (
+          <Marker
+            key={device.meterId}
+            position={[device.lat, device.lon]}
+            icon={L.divIcon({
+              className: "custom-marker",
+              html: `<div class="w-4 h-4 rounded-full ${
+                device.status === "online"
+                  ? "bg-green-400 border-2 border-green-800"
+                  : "bg-destructive border-2 border-red-800"
+              }"></div>`,
+              iconSize: [20, 20],
+            })}
+          >
+            <Popup>
+              <strong>{device.lastChannelWatched}</strong>
+              <br />
+              Meter ID: {device.meterId}
+              <br />
+              Household ID: {device.householdId}
+              <br />
+              Status: {device.status}
+              <br />
+              Household Status: {device.householdStatus}
+              <br />
+            </Popup>
+          </Marker>
+        ))}
+      </MapContainer>
     );
 };
 
