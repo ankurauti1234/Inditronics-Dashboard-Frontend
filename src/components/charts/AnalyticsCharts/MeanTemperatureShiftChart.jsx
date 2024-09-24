@@ -137,13 +137,7 @@ const MeanTemperatureShiftChart = ({ realData, predictionData }) => {
       <ResponsiveContainer width="100%" height="100%">
         <LineChart data={combinedData}>
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis
-            dataKey="Timestamp"
-            tickFormatter={(timestamp) => {
-              const date = parseTimestamp(timestamp);
-              return `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
-            }}
-          />
+          <XAxis dataKey="Timestamp" />
           <YAxis domain={[LCL - 10, UCL + 10]} />
           <Tooltip content={<CustomTooltip />} />
           <Legend />
