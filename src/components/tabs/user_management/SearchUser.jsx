@@ -1,12 +1,12 @@
-'use client'
+"use client";
 
-import { useState, useEffect } from "react"
-import { useRouter } from "next/navigation"
-import Cookies from "js-cookie"
-import { toast } from "sonner"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
+import { toast } from "sonner";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody,
@@ -14,15 +14,15 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
+} from "@/components/ui/table";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"
-import { Label } from "@/components/ui/label"
-import { Filter, Search } from "lucide-react"
-import { cn } from "@/lib/utils"
+} from "@/components/ui/popover";
+import { Label } from "@/components/ui/label";
+import { Filter, Search } from "lucide-react";
+import { cn } from "@/lib/utils";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -33,14 +33,15 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
+} from "@/components/ui/alert-dialog";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api'
+const API_URL =
+  process.env.NEXT_PUBLIC_API_URL || "https://apmapis.webdevava.live/api";
 
 const SearchUser = ({ onEditUserRole }) => {
-  const [loading, setLoading] = useState(true)
-  const [users, setUsers] = useState([])
-  const [searchName, setSearchName] = useState("")
+  const [loading, setLoading] = useState(true);
+  const [users, setUsers] = useState([]);
+  const [searchName, setSearchName] = useState("");
   const [filters, setFilters] = useState({
     email: "",
     role: "",
@@ -48,52 +49,55 @@ const SearchUser = ({ onEditUserRole }) => {
     employeeId: "",
     designation: "",
     company: "",
-  })
-  const [userToDelete, setUserToDelete] = useState(null)
-  const router = useRouter()
+  });
+  const [userToDelete, setUserToDelete] = useState(null);
+  const router = useRouter();
 
   useEffect(() => {
-    const token = Cookies.get("token")
+    const token = Cookies.get("token");
     if (!token) {
-      router.push("/login")
+      router.push("/login");
     } else {
-      setLoading(false)
-      fetchUsers()
+      setLoading(false);
+      fetchUsers();
     }
-  }, [router])
+  }, [router]);
 
   const fetchUsers = async () => {
-    setLoading(true)
+    setLoading(true);
     try {
-      const token = Cookies.get("token")
+      const token = Cookies.get("token");
       const response = await fetch(`${API_URL}/users`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      })
-      if (!response.ok) throw new Error('Failed to fetch users')
-      const data = await response.json()
-      setUsers(data)
+      });
+      if (!response.ok) throw new Error("Failed to fetch users");
+      const data = await response.json();
+      setUsers(data);
     } catch (error) {
-      console.error("Error fetching users:", error)
-      toast.error("An error occurred while fetching users.")
+      console.error("Error fetching users:", error);
+      toast.error("An error occurred while fetching users.");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   const handleSearch = () => {
-    const filteredUsers = users.filter(user => 
-      user.name.toLowerCase().includes(searchName.toLowerCase()) &&
-      Object.entries(filters).every(([key, value]) => 
-        value === "" || user[key]?.toLowerCase().includes(value.toLowerCase())
-      )
-    )
-    setUsers(filteredUsers)
-  }
+    const filteredUsers = users.filter(
+      (user) =>
+        user.name.toLowerCase().includes(searchName.toLowerCase()) &&
+        Object.entries(filters).every(
+          ([key, value]) =>
+            value === "" ||
+            user[key]?.toLowerCase().includes(value.toLowerCase())
+        )
+    );
+    setUsers(filteredUsers);
+  };
 
   const handleReset = () => {
-    setSearchName("")
+    setSearchName("");
     setFilters({
       email: "",
       role: "",
@@ -101,31 +105,31 @@ const SearchUser = ({ onEditUserRole }) => {
       employeeId: "",
       designation: "",
       company: "",
-    })
-    fetchUsers()
-  }
+    });
+    fetchUsers();
+  };
 
   const handleDeleteUser = async () => {
-    if (!userToDelete) return
+    if (!userToDelete) return;
 
     try {
-      const token = Cookies.get("token")
+      const token = Cookies.get("token");
       const response = await fetch(`${API_URL}/users/${userToDelete._id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      })
-      if (!response.ok) throw new Error('Failed to delete user')
-      toast.success("User deleted successfully")
-      fetchUsers()
+      });
+      if (!response.ok) throw new Error("Failed to delete user");
+      toast.success("User deleted successfully");
+      fetchUsers();
     } catch (error) {
-      console.error("Error deleting user:", error)
-      toast.error("An error occurred while deleting the user.")
+      console.error("Error deleting user:", error);
+      toast.error("An error occurred while deleting the user.");
     } finally {
-      setUserToDelete(null)
+      setUserToDelete(null);
     }
-  }
+  };
 
   if (loading) {
     return (
@@ -137,7 +141,7 @@ const SearchUser = ({ onEditUserRole }) => {
           )}
         ></div>
       </div>
-    )
+    );
   }
 
   return (
@@ -154,10 +158,12 @@ const SearchUser = ({ onEditUserRole }) => {
             className="max-w-sm"
           />
           <Button onClick={handleSearch}>Search</Button>
-          
+
           <Popover>
             <PopoverTrigger asChild>
-              <Button variant="outline"><Search className="mr-2 h-4 w-4" /> Advanced Search</Button>
+              <Button variant="outline">
+                <Search className="mr-2 h-4 w-4" /> Advanced Search
+              </Button>
             </PopoverTrigger>
             <PopoverContent className="w-80">
               <div className="grid gap-4">
@@ -169,12 +175,19 @@ const SearchUser = ({ onEditUserRole }) => {
                 </div>
                 <div className="grid gap-2">
                   {Object.entries(filters).map(([key, value]) => (
-                    <div key={key} className="grid grid-cols-3 items-center gap-4">
-                      <Label htmlFor={key}>{key.charAt(0).toUpperCase() + key.slice(1)}</Label>
+                    <div
+                      key={key}
+                      className="grid grid-cols-3 items-center gap-4"
+                    >
+                      <Label htmlFor={key}>
+                        {key.charAt(0).toUpperCase() + key.slice(1)}
+                      </Label>
                       <Input
                         id={key}
                         value={value}
-                        onChange={(e) => setFilters({ ...filters, [key]: e.target.value })}
+                        onChange={(e) =>
+                          setFilters({ ...filters, [key]: e.target.value })
+                        }
                         className="col-span-2 h-8"
                       />
                     </div>
@@ -184,7 +197,9 @@ const SearchUser = ({ onEditUserRole }) => {
               </div>
             </PopoverContent>
           </Popover>
-          <Button onClick={handleReset} variant="outline">Reset</Button>
+          <Button onClick={handleReset} variant="outline">
+            Reset
+          </Button>
         </div>
         {users.length > 0 ? (
           <Table>
@@ -225,15 +240,24 @@ const SearchUser = ({ onEditUserRole }) => {
                       </AlertDialogTrigger>
                       <AlertDialogContent>
                         <AlertDialogHeader>
-                          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                          <AlertDialogTitle>
+                            Are you absolutely sure?
+                          </AlertDialogTitle>
                           <AlertDialogDescription>
-                            This action cannot be undone. This will permanently delete the user
-                            account and remove their data from our servers.
+                            This action cannot be undone. This will permanently
+                            delete the user account and remove their data from
+                            our servers.
                           </AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
-                          <AlertDialogCancel onClick={() => setUserToDelete(null)}>Cancel</AlertDialogCancel>
-                          <AlertDialogAction onClick={handleDeleteUser}>Continue</AlertDialogAction>
+                          <AlertDialogCancel
+                            onClick={() => setUserToDelete(null)}
+                          >
+                            Cancel
+                          </AlertDialogCancel>
+                          <AlertDialogAction onClick={handleDeleteUser}>
+                            Continue
+                          </AlertDialogAction>
                         </AlertDialogFooter>
                       </AlertDialogContent>
                     </AlertDialog>
@@ -247,7 +271,7 @@ const SearchUser = ({ onEditUserRole }) => {
         )}
       </CardContent>
     </Card>
-  )
-}
+  );
+};
 
-export default SearchUser
+export default SearchUser;

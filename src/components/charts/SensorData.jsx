@@ -54,7 +54,7 @@ export default function SensorData() {
   const [alertsPage, setAlertsPage] = useState(1);
 
   const fetchData = async () => {
-    let url = `http://localhost:5000/api/sensor/live?page=${currentPage}&limit=5`;
+    let url = `https://apmapis.webdevava.live/api/sensor/live?page=${currentPage}&limit=5`;
     if (startDate && endDate) {
       url += `&startTime=${startDate.toISOString()}&endTime=${endDate.toISOString()}`;
     }

@@ -13,7 +13,8 @@ import SearchUser from "@/components/tabs/user_management/SearchUser";
 import RoleManagement from "@/components/tabs/user_management/RoleManagement";
 import { cn } from "@/lib/utils";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
+const API_URL =
+  process.env.NEXT_PUBLIC_API_URL || "https://apmapis.webdevava.live/api";
 
 const UserManagementPage = () => {
   const [activeTab, setActiveTab] = useState("searchUser");

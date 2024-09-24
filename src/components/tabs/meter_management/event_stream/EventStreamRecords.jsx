@@ -3,7 +3,13 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
-import { ChevronLeft, ChevronRight, Search, ArrowLeft, Download } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  Search,
+  ArrowLeft,
+  Download,
+} from "lucide-react";
 
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {
@@ -23,9 +29,15 @@ import {
 } from "@/components/ui/popover";
 import { Label } from "@/components/ui/label";
 import { Calendar } from "@/components/ui/calendar";
-import { format } from 'date-fns';
+import { format } from "date-fns";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 
 export default function EventStreamRecords() {
@@ -63,11 +75,11 @@ export default function EventStreamRecords() {
 
   const fetchEventData = async () => {
     try {
-      let url = `http://localhost:5000/api/events?page=${currentPage}&limit=${limit}`;
+      let url = `https://apmapis.webdevava.live/api/events?page=${currentPage}&limit=${limit}`;
 
       Object.entries(searchParams).forEach(([key, value]) => {
         if (value) {
-          if (key === 'dateFrom' || key === 'dateTo') {
+          if (key === "dateFrom" || key === "dateTo") {
             url += `&${key}=${value.toISOString()}`;
           } else {
             url += `&${key}=${value}`;
@@ -107,7 +119,7 @@ export default function EventStreamRecords() {
       DEVICE_ID: searchDeviceId || filterDeviceId,
       eventName: filterEventType,
       dateFrom: filterDateFrom,
-      dateTo: filterDateTo
+      dateTo: filterDateTo,
     });
   };
 
@@ -126,35 +138,35 @@ export default function EventStreamRecords() {
   };
 
   const handleRowSelect = (id) => {
-    setSelectedRows(prev => ({
+    setSelectedRows((prev) => ({
       ...prev,
-      [id]: !prev[id]
+      [id]: !prev[id],
     }));
   };
 
   const handleSelectAll = (checked) => {
     const newSelectedRows = {};
-    eventData.forEach(event => {
+    eventData.forEach((event) => {
       newSelectedRows[event._id] = checked;
     });
     setSelectedRows(newSelectedRows);
   };
 
   const handleExport = () => {
-    const selectedData = eventData.filter(event => selectedRows[event._id]);
+    const selectedData = eventData.filter((event) => selectedRows[event._id]);
     if (selectedData.length === 0) {
       alert("Please select at least one row to export.");
       return;
     }
 
     const csvContent = convertToCSV(selectedData);
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
     const link = document.createElement("a");
     if (link.download !== undefined) {
       const url = URL.createObjectURL(blob);
       link.setAttribute("href", url);
       link.setAttribute("download", "event_data.csv");
-      link.style.visibility = 'hidden';
+      link.style.visibility = "hidden";
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -163,37 +175,38 @@ export default function EventStreamRecords() {
 
   const convertToCSV = (data) => {
     const headers = ["Device ID", "Timestamp", "Event Type", "Event"];
-    const rows = data.map(event => {
+    const rows = data.map((event) => {
       // Convert timestamp to milliseconds (if already in milliseconds, no need to multiply)
       const timestamp = new Date(event.TS).toLocaleString();
       return [
         event.DEVICE_ID,
         timestamp,
         event.eventName,
-        JSON.stringify(getEventDetails(event))
+        JSON.stringify(getEventDetails(event)),
       ];
     });
-    return [headers, ...rows].map(row => row.join(',')).join('\n');
+    return [headers, ...rows].map((row) => row.join(",")).join("\n");
   };
 
   const getEventDetails = (event) => {
     const eventDetails = {};
-    getTableColumns(event).forEach(key => {
+    getTableColumns(event).forEach((key) => {
       eventDetails[key] = event[key];
     });
     return eventDetails;
   };
 
   if (loading) {
-    return (<div className="flex items-center justify-center h-full">
-      <div
-        className={cn(
-          "w-16 h-16 border-4 border-dashed rounded-full animate-spin",
-          "border-gray-400 border-t-transparent"
-        )}
-      ></div>
-    </div>)
-
+    return (
+      <div className="flex items-center justify-center h-full">
+        <div
+          className={cn(
+            "w-16 h-16 border-4 border-dashed rounded-full animate-spin",
+            "border-gray-400 border-t-transparent"
+          )}
+        ></div>
+      </div>
+    );
   }
 
   return (
@@ -297,7 +310,6 @@ export default function EventStreamRecords() {
                           </PopoverContent>
                         </Popover>
                       </div>
-
                     </div>
                     <div className="flex justify-between">
                       <Button onClick={handleSearch}>Search</Button>
@@ -331,7 +343,6 @@ export default function EventStreamRecords() {
             </div>
           </div>
           <div className=" mx-3">
-
             <Select
               id="limit"
               value={limit.toString()}
@@ -354,13 +365,14 @@ export default function EventStreamRecords() {
                 <SelectItem value="all">All {totalRecords}</SelectItem>
               </SelectContent>
             </Select>
-
           </div>
           {Object.values(selectedRows).filter(Boolean).length > 0 && ( // Conditional rendering
             <Button
               className="ml-3"
               onClick={handleExport}
-              disabled={Object.values(selectedRows).filter(Boolean).length === 0}
+              disabled={
+                Object.values(selectedRows).filter(Boolean).length === 0
+              }
             >
               <Download className="h-4 w-4 mr-2" />
               Export Selected
@@ -375,7 +387,7 @@ export default function EventStreamRecords() {
                   <Checkbox
                     checked={
                       eventData.length > 0 &&
-                      eventData.every(event => selectedRows[event._id])
+                      eventData.every((event) => selectedRows[event._id])
                     }
                     onCheckedChange={handleSelectAll}
                   />
@@ -395,17 +407,18 @@ export default function EventStreamRecords() {
                       onCheckedChange={() => handleRowSelect(event._id)}
                     />
                   </TableCell>
+                  <TableCell>{event.DEVICE_ID}</TableCell>
                   <TableCell>
-                    {event.DEVICE_ID}
-                  </TableCell>
-                  <TableCell>
-                    {event.TS ? format(new Date(event.TS), 'MM/dd/yy, hh:mm:ss a') : 'N/A'}
+                    {event.TS
+                      ? format(new Date(event.TS), "MM/dd/yy, hh:mm:ss a")
+                      : "N/A"}
                   </TableCell>
                   <TableCell>{event.eventName}</TableCell>
                   <TableCell>
                     {getTableColumns(event).map((key, index) => (
                       <span key={key}>
-                        <strong>{key}:</strong> {event[key]?.toString()}{index < getTableColumns(event).length - 1 ? ', ' : ''}
+                        <strong>{key}:</strong> {event[key]?.toString()}
+                        {index < getTableColumns(event).length - 1 ? ", " : ""}
                       </span>
                     ))}
                   </TableCell>

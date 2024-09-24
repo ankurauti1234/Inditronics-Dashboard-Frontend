@@ -57,7 +57,7 @@ function VerifyOTPPage() {
 
     try {
       const response = await fetch(
-        "http://localhost:5000/api/auth/verify-otp",
+        "https://apmapis.webdevava.live/api/auth/verify-otp",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -80,7 +80,7 @@ function VerifyOTPPage() {
   const handleResendOTP = async () => {
     try {
       const response = await fetch(
-        "http://localhost:5000/api/auth/resend-otp",
+        "https://apmapis.webdevava.live/api/auth/resend-otp",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

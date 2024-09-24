@@ -93,7 +93,7 @@ export default function Dashboard() {
   const fetchAlarmData = async () => {
     try {
       const response = await fetch(
-        "http://localhost:5000/api/events/alertsCount"
+        "https://apmapis.webdevava.live/api/events/alertsCount"
       );
       const data = await response.json();
 
@@ -133,7 +133,7 @@ export default function Dashboard() {
     try {
       const type = alertTypeMap[alarm.alert];
       const response = await fetch(
-        `http://localhost:5000/api/events/alerts?Type=${type}&page=${page}&limit=${pageSize}&DEVICE_ID=${deviceId}`
+        `https://apmapis.webdevava.live/api/events/alerts?Type=${type}&page=${page}&limit=${pageSize}&DEVICE_ID=${deviceId}`
       );
       const data = await response.json();
 

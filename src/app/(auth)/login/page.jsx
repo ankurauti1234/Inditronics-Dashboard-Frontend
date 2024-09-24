@@ -39,11 +39,14 @@ function LoginPage() {
     setLoading(true);
 
     try {
-      const response = await fetch("http://localhost:5000/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ emailOrname, password }),
-      });
+      const response = await fetch(
+        "https://apmapis.webdevava.live/api/auth/login",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ emailOrname, password }),
+        }
+      );
 
       if (response.ok) {
         const data = await response.json();
@@ -104,7 +107,11 @@ function LoginPage() {
             </form>
           </CardContent>
           <CardFooter className="flex flex-col">
-            <Button className="w-full" onClick={handleSubmit} disabled={loading}>
+            <Button
+              className="w-full"
+              onClick={handleSubmit}
+              disabled={loading}
+            >
               {loading ? (
                 <>
                   <RefreshCcw className="mr-2 h-4 w-4 animate-spin" />

@@ -38,7 +38,7 @@ export default function AlertCards({ onCardClick }) {
   const fetchAlarmData = async () => {
     try {
       const response = await fetch(
-        "http://localhost:5000/api/events/alertsCount"
+        "https://apmapis.webdevava.live/api/events/alertsCount"
       );
       const data = await response.json();
 

@@ -1,7 +1,19 @@
 import { useEffect, useState } from "react"; // Import useEffect
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select"; // Import Select components
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select"; // Import Select components
 import Cookies from "js-cookie"; // Ensure Cookies is imported
 
 const EditUserRoleDialog = ({ open, onClose, user, onRoleUpdate }) => {
@@ -15,14 +27,17 @@ const EditUserRoleDialog = ({ open, onClose, user, onRoleUpdate }) => {
 
   const handleSubmit = async () => {
     // Call API to update user role
-    const response = await fetch(`http://localhost:5000/api/users/${user._id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${Cookies.get("token")}`,
-      },
-      body: JSON.stringify({ role }),
-    });
+    const response = await fetch(
+      `https://apmapis.webdevava.live/api/users/${user._id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${Cookies.get("token")}`,
+        },
+        body: JSON.stringify({ role }),
+      }
+    );
 
     if (response.ok) {
       onRoleUpdate(); // Refresh user list
@@ -51,7 +66,9 @@ const EditUserRoleDialog = ({ open, onClose, user, onRoleUpdate }) => {
         </Select>
         <DialogFooter>
           <Button onClick={handleSubmit}>Save</Button>
-          <Button variant="outline" onClick={onClose}>Cancel</Button>
+          <Button variant="outline" onClick={onClose}>
+            Cancel
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

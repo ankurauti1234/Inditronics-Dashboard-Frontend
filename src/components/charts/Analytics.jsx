@@ -17,7 +17,9 @@ export default function ManufacturingDashboard() {
 
   const fetchData = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/data?limit=20");
+      const response = await fetch(
+        "https://apmapis.webdevava.live/api/data?limit=20"
+      );
       const result = await response.json();
       setRealData(
         result.realData
@@ -48,7 +50,9 @@ export default function ManufacturingDashboard() {
 
   const handleGenerate = async () => {
     try {
-      await fetch("http://localhost:5000/api/data/generate", { method: "POST" });
+      await fetch("https://apmapis.webdevava.live/api/data/generate", {
+        method: "POST",
+      });
       setIsGenerating(true);
       toast.success(
         "Data generation started for both prediction and real-time data"
