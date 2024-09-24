@@ -29,7 +29,7 @@ import {
 const initialData = [
   {
     id: 1,
-    meterId: "M001",
+    meterId: "10001",
     meterStatusEvents: "Active",
     householdId: "HH001",
     config: "v1.0.1",
@@ -38,7 +38,7 @@ const initialData = [
   },
   {
     id: 2,
-    meterId: "M002",
+    meterId: "10002",
     meterStatusEvents: "Active",
     householdId: "HH002",
     config: "v1.0.1",
@@ -47,7 +47,7 @@ const initialData = [
   },
   {
     id: 3,
-    meterId: "M003",
+    meterId: "10003",
     meterStatusEvents: "Inactive",
     householdId: "HH003",
     config: "v1.0.0",
@@ -56,7 +56,7 @@ const initialData = [
   },
   {
     id: 4,
-    meterId: "M004",
+    meterId: "10004",
     meterStatusEvents: "Active",
     householdId: "HH004",
     config: "v1.0.1",
@@ -65,7 +65,7 @@ const initialData = [
   },
   {
     id: 5,
-    meterId: "M005",
+    meterId: "10005",
     meterStatusEvents: "Active",
     householdId: "HH005",
     config: "v1.0.2",
@@ -100,7 +100,7 @@ const ViewAndUpdate = () => {
         />
       ),
     },
-    { accessorKey: "meterId", header: "Meter ID" },
+    { accessorKey: "meterId", header: "Device ID" },
     { accessorKey: "meterStatusEvents", header: "Meter Status Events" },
     { accessorKey: "householdId", header: "Household ID" },
     { accessorKey: "config", header: "Config" },

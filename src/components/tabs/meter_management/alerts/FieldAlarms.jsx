@@ -22,7 +22,7 @@ import {
 const initialData = [
   {
     id: 1,
-    meterId: "M001",
+    meterId: "10001",
     hhId: "HH001",
     remoteId: "R001",
     eventId: "E001",
@@ -35,7 +35,7 @@ const initialData = [
   },
   {
     id: 2,
-    meterId: "M002",
+    meterId: "10002",
     hhId: "HH002",
     remoteId: "R002",
     eventId: "E002",
@@ -48,7 +48,7 @@ const initialData = [
   },
   {
     id: 3,
-    meterId: "M003",
+    meterId: "10003",
     hhId: "HH003",
     remoteId: "R003",
     eventId: "E003",
@@ -61,7 +61,7 @@ const initialData = [
   },
   {
     id: 4,
-    meterId: "M004",
+    meterId: "10004",
     hhId: "HH004",
     remoteId: "R004",
     eventId: "E004",
@@ -74,7 +74,7 @@ const initialData = [
   },
   {
     id: 5,
-    meterId: "M005",
+    meterId: "10005",
     hhId: "HH005",
     remoteId: "R005",
     eventId: "E005",
@@ -87,7 +87,7 @@ const initialData = [
   },
   {
     id: 6,
-    meterId: "M006",
+    meterId: "10006",
     hhId: "HH006",
     remoteId: "R006",
     eventId: "E006",
@@ -100,7 +100,7 @@ const initialData = [
   },
   {
     id: 7,
-    meterId: "M007",
+    meterId: "10007",
     hhId: "HH007",
     remoteId: "R007",
     eventId: "E007",
@@ -113,7 +113,7 @@ const initialData = [
   },
   {
     id: 8,
-    meterId: "M008",
+    meterId: "10008",
     hhId: "HH008",
     remoteId: "R008",
     eventId: "E008",
@@ -126,7 +126,7 @@ const initialData = [
   },
   {
     id: 9,
-    meterId: "M009",
+    meterId: "10009",
     hhId: "HH009",
     remoteId: "R009",
     eventId: "E009",
@@ -139,7 +139,7 @@ const initialData = [
   },
   {
     id: 10,
-    meterId: "M010",
+    meterId: "10010",
     hhId: "HH010",
     remoteId: "R010",
     eventId: "E010",
@@ -158,7 +158,7 @@ const FieldAlarms = () => {
 
   const columns = useMemo(
     () => [
-      { accessorKey: "meterId", header: "Meter ID" },
+      { accessorKey: "meterId", header: "Device ID" },
       { accessorKey: "hhId", header: "HH ID" },
       { accessorKey: "remoteId", header: "Remote ID" },
       { accessorKey: "eventId", header: "Event ID" },

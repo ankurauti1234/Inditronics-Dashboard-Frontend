@@ -44,6 +44,7 @@ import {
 import Analytics from "@/components/charts/Analytics";
 import SensorData from "@/components/charts/SensorData";
 import AlertCards from "@/components/tabs/dashboard/AlertCards";
+import ConditionChart from "@/components/charts/ConditionChart";
 
 const iconMap = {
   TAMPER_ALARM: <PocketKnife className="h-4 w-4 text-primary" />,
@@ -222,6 +223,7 @@ export default function Dashboard() {
           <TabsContent value="analytics">
             <div className="grid gap-8">
               <Analytics />
+              {/* <ConditionChart/> */}
               {/* <Analytics2/> */}
             </div>
           </TabsContent>

@@ -253,13 +253,13 @@ const MeterManagementPage = () => {
                 className="data-[state=active]:text-primary w-full whitespace-nowrap"
                 value="meterReleaseManagement"
               >
-                Meter Release Management
+                Device Release Management
               </TabsTrigger>
               <TabsTrigger
                 className="data-[state=active]:text-primary w-full whitespace-nowrap"
                 value="meterInsightPanel"
               >
-                Meter Insight Panel
+                Device Insight Panel
               </TabsTrigger>
               <TabsTrigger
                 className="data-[state=active]:text-primary w-full whitespace-nowrap"

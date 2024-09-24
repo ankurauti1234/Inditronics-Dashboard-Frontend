@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useState, useEffect } from "react";
 import {
   LineChart,
@@ -48,12 +49,26 @@ const checkGradualIncrease = (data) => {
 
 const GradualIncreaseChart = ({ realData, predictionData }) => {
   const [showAlert, setShowAlert] = useState(false);
+  const [truncatedRealData, setTruncatedRealData] = useState([]);
 
   useEffect(() => {
-    const alertStatus = checkGradualIncrease(realData);
-    setShowAlert(alertStatus);
-    if (alertStatus) {
-      toast.error("Alert: Gradual temperature increase detected!");
+    if (realData && realData.length > 3) {
+      const truncated = realData.slice(0, -3);
+      setTruncatedRealData(truncated);
+      const alertStatus = checkGradualIncrease(truncated);
+      setShowAlert(alertStatus);
+      if (alertStatus) {
+        toast.error(
+          "Alert: Combined effect of increasing temperature and decreasing conveyor speed detected!",
+          {
+            style: {
+              background: "rgb(220, 38, 38)", // Tailwind's red-600
+              color: "white",
+              border: "none",
+            },
+          }
+        );
+      }
     }
   }, [realData]);
 
@@ -80,20 +95,22 @@ const GradualIncreaseChart = ({ realData, predictionData }) => {
           />
           <Line
             type="monotone"
-            data={realData}
+            data={truncatedRealData}
             dataKey="Temperature"
-            stroke="#ffc658"
+            stroke="#00712D"
             name="Real Temperature"
-            dot={{ fill: "#ffc658" }}
+            dot={{ fill: "#00712D" }}
+            strokeWidth={2}
           />
           <Line
             type="monotone"
             data={predictionData}
             dataKey="Temperature"
-            stroke="#8884d8"
+            stroke="#FFC100"
             name="Predicted Temperature"
-            dot={{ fill: "#8884d8" }}
+            dot={{ fill: "#FFC100" }}
             strokeDasharray="5 5"
+            strokeWidth={2}
           />
         </LineChart>
       </ResponsiveContainer>

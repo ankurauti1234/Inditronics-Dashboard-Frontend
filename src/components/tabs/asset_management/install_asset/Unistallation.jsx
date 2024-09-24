@@ -18,7 +18,7 @@ import {
 
 const data = [
   {
-    MeterId: "M001",
+    MeterId: "10001",
     HHId: "HH001",
     TVId: "TV1234",
     RemoteId: "R001",
@@ -27,7 +27,7 @@ const data = [
     UninstallationInitiatedAt: "2024-03-15 10:00:00",
   },
   {
-    MeterId: "M002",
+    MeterId: "10002",
     HHId: "HH002",
     TVId: "TV5678",
     RemoteId: "R002",
@@ -41,7 +41,7 @@ const data = [
 const columns = [
   {
     accessorKey: "MeterId",
-    header: "Meter Id",
+    header: "Device Id",
   },
   {
     accessorKey: "HHId",

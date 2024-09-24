@@ -43,7 +43,7 @@ const dates = [
 ];
 
 const dummyData = {
-  Meters: generateData("Meters", dates),
+  Devices: generateData("Devices", dates),
   Remotes: generateData("Remotes", dates),
 };
 
@@ -63,7 +63,7 @@ const calculateTotals = (data) => {
   ];
 };
 
-const meterTotals = calculateTotals(dummyData.Meters);
+const meterTotals = calculateTotals(dummyData.Devices);
 const remoteTotals = calculateTotals(dummyData.Remotes);
 
 // Custom tooltip component
@@ -168,7 +168,7 @@ function Summary() {
     selectedType === "ALL"
       ? dates.map((date) => ({
           date,
-          Meters: dummyData.Meters.find((d) => d.date === date)[selectedMetric],
+          Devices: dummyData.Devices.find((d) => d.date === date)[selectedMetric],
           Remotes: dummyData.Remotes.find((d) => d.date === date)[
             selectedMetric
           ],
@@ -177,7 +177,7 @@ function Summary() {
 
   // Set colors based on the selected Type
   const barColors = {
-    Meters: "hsl(var(--primary))",
+    Devices: "hsl(var(--primary))",
     Remotes: "hsl(var(--border))",
   };
 
@@ -205,12 +205,12 @@ function Summary() {
         <Card>
           <CardHeader className="p-2 border-b flex flex-row justify-between items-center px-4">
             <CardTitle className="text-lg w-fit">
-              Meters Installation Status
+              Devices Installation Status
             </CardTitle>
             <div className="flex gap-3 justify-center w-fit border p-2 rounded-lg h-fit">
               <div className="flex items-center">
                 <div className="w-3 h-3 rounded-full mr-2 bg-[hsl(var(--primary))]"></div>
-                <span className="text-sm">Meters</span>
+                <span className="text-sm">Devices</span>
               </div>
               <div className="flex items-center">
                 <div className="w-3 h-3 rounded-full mr-2 bg-[hsl(var(--border))]"></div>
@@ -251,7 +251,7 @@ function Summary() {
             <div className="flex gap-3 justify-center w-fit border p-2 rounded-lg h-fit">
               <div className="flex items-center">
                 <div className="w-3 h-3 rounded-full mr-2 bg-[hsl(var(--primary))]"></div>
-                <span className="text-sm">Meters</span>
+                <span className="text-sm">Devices</span>
               </div>
               <div className="flex items-center">
                 <div className="w-3 h-3 rounded-full mr-2 bg-[hsl(var(--border))]"></div>
@@ -293,7 +293,7 @@ function Summary() {
           <div className="flex gap-3 justify-center w-fit border p-2 rounded-lg h-fit">
             <div className="flex items-center">
               <div className="w-3 h-3 rounded-full mr-2 bg-[hsl(var(--primary))]"></div>
-              <span className="text-sm">Meters</span>
+              <span className="text-sm">Devices</span>
             </div>
             <div className="flex items-center">
               <div className="w-3 h-3 rounded-full mr-2 bg-[hsl(var(--border))]"></div>
@@ -309,7 +309,7 @@ function Summary() {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="ALL">ALL</SelectItem>
-                <SelectItem value="Meters">Meters</SelectItem>
+                <SelectItem value="Devices">Devices</SelectItem>
                 <SelectItem value="Remotes">Remotes</SelectItem>
               </SelectContent>
             </Select>
@@ -342,8 +342,8 @@ function Summary() {
               {selectedType === "ALL" ? (
                 <>
                   <Bar
-                    dataKey="Meters"
-                    fill={barColors.Meters}
+                    dataKey="Devices"
+                    fill={barColors.Devices}
                     radius={[4, 4, 0, 0]}
                   />
                   <Bar

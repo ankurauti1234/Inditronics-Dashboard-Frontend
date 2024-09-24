@@ -86,7 +86,10 @@ export const columns = [
     id: "select",
     header: ({ table }) => (
       <Checkbox
-        checked={table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && "indeterminate")}
+        checked={
+          table.getIsAllPageRowsSelected() ||
+          (table.getIsSomePageRowsSelected() && "indeterminate")
+        }
         onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
         aria-label="Select all"
       />
@@ -103,7 +106,7 @@ export const columns = [
   },
   {
     accessorKey: "meterId",
-    header: "Meter ID",
+    header: "Device ID",
     cell: ({ row }) => <div>{row.getValue("meterId")}</div>,
   },
   {
@@ -187,7 +190,9 @@ export const columns = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem onClick={() => navigator.clipboard.writeText(meter.meterId)}>
+            <DropdownMenuItem
+              onClick={() => navigator.clipboard.writeText(meter.meterId)}
+            >
               Copy Meter ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
@@ -254,7 +259,7 @@ function MasterData_Meter() {
             className="max-w-sm"
           />
 
-          <DropdownMenu>
+          {/* <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" className="ml-auto">
                 Search Filters <ChevronDown className="ml-2 h-4 w-4" />
@@ -292,7 +297,7 @@ function MasterData_Meter() {
                 </CardFooter>
               </Card>
             </DropdownMenuContent>
-          </DropdownMenu>
+          </DropdownMenu> */}
         </div>
 
         <DropdownMenu>

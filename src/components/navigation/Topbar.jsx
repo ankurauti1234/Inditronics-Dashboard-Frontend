@@ -71,7 +71,7 @@ const Topbar = () => {
   const navItems = [
     { href: "/dashboard", label: "Dashboard" },
     { href: "/assets_management", label: "Assets Management" },
-    { href: "/meter_management", label: "Meter Management" },
+    { href: "/meter_management", label: "Device Management" },
     { href: "/live_monitoring", label: "Live Monitoring" },
     { href: "/user_management", label: "User Management" },
   ];

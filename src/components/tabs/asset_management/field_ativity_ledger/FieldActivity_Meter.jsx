@@ -56,7 +56,7 @@ const data = [
 export const columns = [
   {
     accessorKey: "meterId",
-    header: "Meter ID",
+    header: "Device ID",
     cell: ({ row }) => <div>{row.getValue("meterId")}</div>,
   },
   {

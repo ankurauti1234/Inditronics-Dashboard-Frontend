@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useState, useEffect } from "react";
 import {
   ComposedChart,
@@ -10,12 +11,15 @@ import {
   Legend,
   ResponsiveContainer,
   ReferenceLine,
+  Scatter,
 } from "recharts";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { toast } from "sonner";
 
-const UCL = 210;
-const LCL = 190;
+const TEMP_UCL = 210;
+const TEMP_LCL = 190;
+const SPEED_UCL = 1.2;
+const SPEED_LCL = 0.8;
 
 const CustomTooltip = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
@@ -27,6 +31,9 @@ const CustomTooltip = ({ active, payload, label }) => {
             {`${entry.name}: ${entry.value}`}
           </p>
         ))}
+        {payload[0].payload.outOfUCL && (
+          <p className="text-red-500 font-bold">Out of UCL!</p>
+        )}
       </div>
     );
   }
@@ -45,21 +52,45 @@ const checkCombinedEffect = (data) => {
   return false;
 };
 
-const CombinedEffectChart = ({ realData, predictionData }) => {
+const CustomizedDot = (props) => {
+  const { cx, cy, payload } = props;
+  if (payload.outOfUCL) {
+    return <circle cx={cx} cy={cy} r={4} fill="red" stroke="none" />;
+  }
+  return null;
+};
+
+export default function CombinedEffectChart({ realData, predictionData }) {
   const [showAlert, setShowAlert] = useState(false);
+  const [truncatedRealData, setTruncatedRealData] = useState([]);
 
   useEffect(() => {
-    const alertStatus = checkCombinedEffect(realData);
-    setShowAlert(alertStatus);
-    if (alertStatus) {
-      toast.error(
-        "Alert: Combined effect of increasing temperature and decreasing conveyor speed detected!"
-      );
+    if (realData && realData.length > 3) {
+      const truncated = realData.slice(0, -3).map((point) => ({
+        ...point,
+        outOfUCL:
+          point.Temperature > TEMP_UCL || point.Conveyor_Speed > SPEED_UCL,
+      }));
+      setTruncatedRealData(truncated);
+      const alertStatus = checkCombinedEffect(truncated);
+      setShowAlert(alertStatus);
+      if (alertStatus) {
+        toast.error(
+          "Alert: Combined effect of increasing temperature and decreasing conveyor speed detected!",
+          {
+            style: {
+              background: "rgb(220, 38, 38)",
+              color: "white",
+              border: "none",
+            },
+          }
+        );
+      }
     }
   }, [realData]);
 
   return (
-    <>
+    <div className="h-96">
       <ResponsiveContainer width="100%" height="100%">
         <ComposedChart>
           <CartesianGrid strokeDasharray="3 3" />
@@ -68,7 +99,7 @@ const CombinedEffectChart = ({ realData, predictionData }) => {
             yAxisId="left"
             orientation="left"
             stroke="#8884d8"
-            domain={[LCL - 10, UCL + 10]}
+            domain={[TEMP_LCL - 10, TEMP_UCL + 10]}
             label={{
               value: "Temperature (°C)",
               angle: -90,
@@ -79,6 +110,7 @@ const CombinedEffectChart = ({ realData, predictionData }) => {
             yAxisId="right"
             orientation="right"
             stroke="#82ca9d"
+            domain={[SPEED_LCL - 0.1, SPEED_UCL + 0.1]}
             label={{
               value: "Conveyor Speed",
               angle: 90,
@@ -89,51 +121,76 @@ const CombinedEffectChart = ({ realData, predictionData }) => {
           <Legend />
           <ReferenceLine
             yAxisId="left"
-            y={UCL}
-            label="UCL"
+            y={TEMP_UCL}
+            label={{ value: "TEMP_UCL", position: "insideTopLeft" }}
             stroke="red"
             strokeDasharray="3 3"
           />
           <ReferenceLine
             yAxisId="left"
-            y={LCL}
-            label="LCL"
+            y={TEMP_LCL}
+            label={{ value: "TEMP_LCL", position: "insideBottomLeft" }}
+            stroke="red"
+            strokeDasharray="3 3"
+          />
+          <ReferenceLine
+            yAxisId="right"
+            y={SPEED_UCL}
+            label={{ value: "SPEED_UCL", position: "insideTopRight" }}
+            stroke="red"
+            strokeDasharray="3 3"
+          />
+          <ReferenceLine
+            yAxisId="right"
+            y={SPEED_LCL}
+            label={{ value: "SPEED_LCL", position: "insideBottomRight" }}
             stroke="red"
             strokeDasharray="3 3"
           />
           <Line
             yAxisId="left"
             type="monotone"
-            data={realData}
+            data={truncatedRealData}
             dataKey="Temperature"
-            stroke="#8884d8"
+            stroke="#00712D"
             name="Real Temperature"
+            strokeWidth={2}
+            dot={<CustomizedDot />}
           />
           <Line
             yAxisId="left"
             type="monotone"
             data={predictionData}
             dataKey="Temperature"
-            stroke="#82ca9d"
+            stroke="#FFC100"
             name="Predicted Temperature"
+            strokeWidth={2}
             strokeDasharray="5 5"
           />
           <Line
             yAxisId="right"
             type="monotone"
-            data={realData}
+            data={truncatedRealData}
             dataKey="Conveyor_Speed"
-            stroke="#ffc658"
+            stroke="#3ed321"
             name="Real Conveyor Speed"
+            strokeWidth={2}
+            dot={<CustomizedDot />}
           />
           <Line
             yAxisId="right"
             type="monotone"
             data={predictionData}
             dataKey="Conveyor_Speed"
-            stroke="#ff7300"
+            stroke="#FF885B"
             name="Predicted Conveyor Speed"
             strokeDasharray="5 5"
+            strokeWidth={2}
+          />
+          <Scatter
+            yAxisId="left"
+            data={truncatedRealData.filter((d) => d.outOfUCL)}
+            fill="red"
           />
         </ComposedChart>
       </ResponsiveContainer>
@@ -145,8 +202,6 @@ const CombinedEffectChart = ({ realData, predictionData }) => {
           </AlertDescription>
         </Alert>
       )}
-    </>
+    </div>
   );
-};
-
-export default CombinedEffectChart;
+}

@@ -1,13 +1,24 @@
-'use client'
+"use client";
 import React, { useState } from "react";
-import { flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
+import {
+  flexRender,
+  getCoreRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 const data = [
   {
-    MeterId: "M001",
+    MeterId: "10001",
     HHId: "HH001",
     TVId: "TV1234",
     RemoteId: "R001",
@@ -16,7 +27,7 @@ const data = [
     InstallationInitiatedAt: "2024-03-15 10:00:00",
   },
   {
-    MeterId: "M002",
+    MeterId: "10002",
     HHId: "HH002",
     TVId: "TV5678",
     RemoteId: "R002",
@@ -30,7 +41,7 @@ const data = [
 const columns = [
   {
     accessorKey: "MeterId",
-    header: "Meter Id",
+    header: "Device Id",
   },
   {
     accessorKey: "HHId",

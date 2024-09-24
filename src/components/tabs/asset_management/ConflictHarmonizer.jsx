@@ -83,22 +83,22 @@ const data = [
 const columns = [
   {
     accessorKey: "testMeterId",
-    header: "Test Meter ID",
+    header: "Test Device ID",
     cell: ({ row }) => <div>{row.getValue("testMeterId")}</div>,
   },
   {
     accessorKey: "testMeterVersion",
-    header: "Test Meter Version",
+    header: "Test Device Version",
     cell: ({ row }) => <div>{row.getValue("testMeterVersion")}</div>,
   },
   {
     accessorKey: "conflictMeterId",
-    header: "Conflict Meter ID",
+    header: "Conflict Device ID",
     cell: ({ row }) => <div>{row.getValue("conflictMeterId")}</div>,
   },
   {
     accessorKey: "conflictMeterVersion",
-    header: "Conflict Meter Version",
+    header: "Conflict Device Version",
     cell: ({ row }) => <div>{row.getValue("conflictMeterVersion")}</div>,
   },
   {

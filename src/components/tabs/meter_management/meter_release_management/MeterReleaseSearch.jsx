@@ -20,7 +20,7 @@ import {
 const initialData = [
   {
     id: 1,
-    meterId: "M001",
+    meterId: "10001",
     hhId: "HH001",
     appliedSwVersion: "v1.0.0",
     pushedSwVersion: "v1.0.1",
@@ -29,7 +29,7 @@ const initialData = [
   },
   {
     id: 2,
-    meterId: "M002",
+    meterId: "10002",
     hhId: "HH002",
     appliedSwVersion: "v1.0.1",
     pushedSwVersion: "v1.0.2",
@@ -38,7 +38,7 @@ const initialData = [
   },
   {
     id: 3,
-    meterId: "M003",
+    meterId: "10003",
     hhId: "HH003",
     appliedSwVersion: "v1.0.0",
     pushedSwVersion: "v1.0.1",
@@ -47,7 +47,7 @@ const initialData = [
   },
   {
     id: 4,
-    meterId: "M004",
+    meterId: "10004",
     hhId: "HH004",
     appliedSwVersion: "v1.0.2",
     pushedSwVersion: "v1.0.3",
@@ -56,7 +56,7 @@ const initialData = [
   },
   {
     id: 5,
-    meterId: "M005",
+    meterId: "10005",
     hhId: "HH005",
     appliedSwVersion: "v1.0.1",
     pushedSwVersion: "v1.0.2",
@@ -141,7 +141,7 @@ const MeterReleaseSearch = () => {
         <TableCaption>Meter Release Data</TableCaption>
         <TableHeader>
           <TableRow>
-            <TableHead>Meter ID</TableHead>
+            <TableHead>Device ID</TableHead>
             <TableHead>HH ID</TableHead>
             <TableHead>Applied SW Version</TableHead>
             <TableHead>Pushed SW Version</TableHead>

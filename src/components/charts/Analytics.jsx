@@ -8,6 +8,7 @@ import TemperatureFluctuationChart from "./AnalyticsCharts/TemperatureFluctuatio
 import GradualIncreaseChart from "./AnalyticsCharts/GradualIncreaseChart";
 import FluctuatingPatternsChart from "./AnalyticsCharts/FluctuatingPatternsChart";
 import CombinedEffectChart from "./AnalyticsCharts/CombinedEffectChart";
+import { Card } from "../ui/card";
 
 export default function ManufacturingDashboard() {
   const [realData, setRealData] = useState([]);
@@ -16,7 +17,7 @@ export default function ManufacturingDashboard() {
 
   const fetchData = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/data?limit=10");
+      const response = await fetch("http://localhost:5000/api/data?limit=20");
       const result = await response.json();
       setRealData(
         result.realData
@@ -59,15 +60,14 @@ export default function ManufacturingDashboard() {
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <Toaster />
+    <div className="bg-transparent bg-clip-padding backdrop-filter backdrop-blur-xl bg-opacity-10 shadow-inner shadow-accent/50 border  rounded-lg  p-4">
       <h1 className="text-2xl font-bold mb-4">Temperature Data Dashboard</h1>
       <div className="flex space-x-4 mb-4">
         <Button onClick={handleGenerate} disabled={isGenerating}>
           {isGenerating ? "Generating Data..." : "Generate Data"}
         </Button>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <Card className="flex bg-transparent flex-col p-2 gap-8">
         <ChartContainer title="Mean Temperature Shift (X-bar Chart)">
           <MeanTemperatureShiftChart
             realData={realData}
@@ -98,7 +98,7 @@ export default function ManufacturingDashboard() {
             predictionData={predictionData}
           />
         </ChartContainer>
-      </div>
+      </Card>
     </div>
   );
 }

@@ -21,7 +21,7 @@ import {
 const initialData = [
   {
     id: 1,
-    meterId: "M001",
+    meterId: "10001",
     hhId: "HH001",
     hwVersion: "v1.0.0",
     status: "Installed",
@@ -30,7 +30,7 @@ const initialData = [
   },
   {
     id: 2,
-    meterId: "M002",
+    meterId: "10002",
     hhId: "HH002",
     hwVersion: "v1.1.0",
     status: "Installed",
@@ -39,7 +39,7 @@ const initialData = [
   },
   {
     id: 3,
-    meterId: "M003",
+    meterId: "10003",
     hhId: "HH003",
     hwVersion: "v1.2.0",
     status: "Installed",
@@ -48,7 +48,7 @@ const initialData = [
   },
   {
     id: 4,
-    meterId: "M004",
+    meterId: "10004",
     hhId: "HH004",
     hwVersion: "v1.0.1",
     status: "Installed",
@@ -57,7 +57,7 @@ const initialData = [
   },
   {
     id: 5,
-    meterId: "M005",
+    meterId: "10005",
     hhId: "HH005",
     hwVersion: "v1.1.1",
     status: "Installed",
@@ -66,7 +66,7 @@ const initialData = [
   },
   {
     id: 6,
-    meterId: "M006",
+    meterId: "10006",
     hhId: "HH006",
     hwVersion: "v1.2.1",
     status: "Installed",
@@ -75,7 +75,7 @@ const initialData = [
   },
   {
     id: 7,
-    meterId: "M007",
+    meterId: "10007",
     hhId: "HH007",
     hwVersion: "v1.0.2",
     status: "Installed",
@@ -84,7 +84,7 @@ const initialData = [
   },
   {
     id: 8,
-    meterId: "M008",
+    meterId: "10008",
     hhId: "HH008",
     hwVersion: "v1.1.2",
     status: "Installed",
@@ -93,7 +93,7 @@ const initialData = [
   },
   {
     id: 9,
-    meterId: "M009",
+    meterId: "10009",
     hhId: "HH009",
     hwVersion: "v1.2.2",
     status: "Installed",
@@ -102,7 +102,7 @@ const initialData = [
   },
   {
     id: 10,
-    meterId: "M010",
+    meterId: "10010",
     hhId: "HH010",
     hwVersion: "v1.0.3",
     status: "Installed",

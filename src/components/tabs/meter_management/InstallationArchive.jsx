@@ -20,7 +20,7 @@ import { Search, Filter } from "lucide-react";
 
 const data = [
   {
-    meterId: "MTR001",
+    meterId: "100001",
     hwVersion: "v1.2",
     hhId: "HH001",
     tvId: "TV001",
@@ -31,7 +31,7 @@ const data = [
     pairingActiveTo: "2024-12-25",
   },
   {
-    meterId: "MTR002",
+    meterId: "100002",
     hwVersion: "v1.3",
     hhId: "HH002",
     tvId: "TV002",
@@ -182,7 +182,7 @@ const InstallationArchive = () => {
       <Table className="bg-card rounded-lg">
         <TableHeader>
           <TableRow>
-            <TableHead>Meter ID</TableHead>
+            <TableHead>Device ID</TableHead>
             <TableHead>H/W Version</TableHead>
             <TableHead>HH ID</TableHead>
             <TableHead>TV ID</TableHead>

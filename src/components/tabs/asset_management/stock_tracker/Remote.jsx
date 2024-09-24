@@ -216,7 +216,7 @@ function Remote() {
             className="max-w-sm"
           />
 
-          <DropdownMenu>
+          {/* <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" className="ml-auto">
                 Search Filters <ChevronDown className="ml-2 h-4 w-4" />
@@ -282,7 +282,7 @@ function Remote() {
                 </CardFooter>
               </Card>
             </DropdownMenuContent>
-          </DropdownMenu>
+          </DropdownMenu> */}
         </div>
 
         <DropdownMenu>

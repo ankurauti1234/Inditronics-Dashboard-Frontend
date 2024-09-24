@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import React from "react";
 import {
   Table,
@@ -14,7 +14,7 @@ import { Card } from "@/components/ui/card";
 const data = [
   {
     jobId: "JOB001",
-    metersId: "MTR123,MTR124,MTR125",
+    metersId: "100123,100124,100125",
     osBranch: "main",
     osVersion: "v2.1.0",
     status: "Completed",
@@ -24,7 +24,7 @@ const data = [
   },
   {
     jobId: "JOB002",
-    metersId: "MTR126,MTR127",
+    metersId: "100126,100127",
     osBranch: "develop",
     osVersion: "v2.2.0-beta",
     status: "In Progress",
@@ -34,7 +34,7 @@ const data = [
   },
   {
     jobId: "JOB003",
-    metersId: "MTR128,MTR129,MTR130,MTR131",
+    metersId: "100128,100129,100130,100131",
     osBranch: "feature/new-ui",
     osVersion: "v2.1.1",
     status: "Failed",
@@ -51,7 +51,7 @@ const MeterReleaseViewJob = () => {
         <TableHeader>
           <TableRow>
             <TableHead>Job ID</TableHead>
-            <TableHead>Meters ID</TableHead>
+            <TableHead>Device ID</TableHead>
             <TableHead>OS Branch</TableHead>
             <TableHead>OS Version</TableHead>
             <TableHead>Status</TableHead>

@@ -1,4 +1,5 @@
-'use client'
+"use client";
+
 import React, { useState, useEffect } from "react";
 import {
   LineChart,
@@ -50,12 +51,26 @@ const checkFluctuatingPatterns = (data) => {
 
 const FluctuatingPatternsChart = ({ realData, predictionData }) => {
   const [showAlert, setShowAlert] = useState(false);
+  const [truncatedRealData, setTruncatedRealData] = useState([]);
 
   useEffect(() => {
-    const alertStatus = checkFluctuatingPatterns(realData);
-    setShowAlert(alertStatus);
-    if (alertStatus) {
-      toast.error("Alert: Fluctuating temperature pattern detected!");
+    if (realData && realData.length > 3) {
+      const truncated = realData.slice(0, -3);
+      setTruncatedRealData(truncated);
+      const alertStatus = checkFluctuatingPatterns(truncated);
+      setShowAlert(alertStatus);
+      if (alertStatus) {
+        toast.error(
+          "Alert: Combined effect of increasing temperature and decreasing conveyor speed detected!",
+          {
+            style: {
+              background: "rgb(220, 38, 38)", // Tailwind's red-600
+              color: "white",
+              border: "none",
+            },
+          }
+        );
+      }
     }
   }, [realData]);
 
@@ -82,20 +97,22 @@ const FluctuatingPatternsChart = ({ realData, predictionData }) => {
           />
           <Line
             type="monotone"
-            data={realData}
+            data={truncatedRealData}
             dataKey="Temperature"
-            stroke="#ff7300"
+            stroke="#00712D"
             name="Real Temperature"
-            dot={{ fill: "#ff7300" }}
+            dot={{ fill: "#00712D" }}
+            strokeWidth={2}
           />
           <Line
             type="monotone"
             data={predictionData}
             dataKey="Temperature"
-            stroke="#8884d8"
+            stroke="#FFC100"
             name="Predicted Temperature"
-            dot={{ fill: "#8884d8" }}
+            dot={{ fill: "#FFC100" }}
             strokeDasharray="5 5"
+            strokeWidth={2}
           />
         </LineChart>
       </ResponsiveContainer>

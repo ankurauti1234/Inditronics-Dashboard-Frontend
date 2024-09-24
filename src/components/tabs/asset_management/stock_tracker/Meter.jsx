@@ -130,7 +130,7 @@ export const columns = [
   },
   {
     accessorKey: "meterId",
-    header: "Meter ID",
+    header: "Device ID",
     cell: ({ row }) => <div>{row.getValue("meterId")}</div>,
   },
   {
@@ -270,7 +270,7 @@ function Meter() {
             className="max-w-sm"
           />
 
-          <DropdownMenu>
+          {/* <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" className="ml-auto">
                 Search Filters <ChevronDown className="ml-2 h-4 w-4" />
@@ -336,7 +336,7 @@ function Meter() {
                 </CardFooter>
               </Card>
             </DropdownMenuContent>
-          </DropdownMenu>
+          </DropdownMenu> */}
         </div>
 
         <DropdownMenu>

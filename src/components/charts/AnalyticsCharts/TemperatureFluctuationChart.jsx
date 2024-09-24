@@ -68,7 +68,16 @@ const TemperatureFluctuationChart = ({ realData }) => {
     const alertStatus = checkTemperatureFluctuation(calculatedRanges);
     setShowAlert(alertStatus);
     if (alertStatus) {
-      toast.error("Alert: Continuous temperature range increase detected!");
+      toast.error(
+        "Alert: Combined effect of increasing temperature and decreasing conveyor speed detected!",
+        {
+          style: {
+            background: "rgb(220, 38, 38)", // Tailwind's red-600
+            color: "white",
+            border: "none",
+          },
+        }
+      );
     }
   }, [realData]);
 
@@ -96,9 +105,10 @@ const TemperatureFluctuationChart = ({ realData }) => {
           <Line
             type="monotone"
             dataKey="Range"
-            stroke="#82ca9d"
+            stroke="#00712D"
             name="Temperature Range"
-            dot={{ fill: "#82ca9d" }}
+            dot={{ fill: "#00712D" }}
+            strokeWidth={2}
           />
         </LineChart>
       </ResponsiveContainer>

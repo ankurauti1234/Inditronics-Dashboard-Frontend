@@ -22,7 +22,7 @@ import {
 const initialData = [
   {
     id: 1,
-    meterId: "M001",
+    meterId: "10001",
     hhId: "HH001",
     eventId: "E001",
     audienceSessionStart: "2023-05-01 10:00:00",
@@ -32,7 +32,7 @@ const initialData = [
   },
   {
     id: 2,
-    meterId: "M002",
+    meterId: "10002",
     hhId: "HH002",
     eventId: "E002",
     audienceSessionStart: "2023-05-02 11:00:00",
@@ -42,7 +42,7 @@ const initialData = [
   },
   {
     id: 3,
-    meterId: "M003",
+    meterId: "10003",
     hhId: "HH003",
     eventId: "E003",
     audienceSessionStart: "2023-05-03 12:00:00",
@@ -52,7 +52,7 @@ const initialData = [
   },
   {
     id: 4,
-    meterId: "M004",
+    meterId: "10004",
     hhId: "HH004",
     eventId: "E004",
     audienceSessionStart: "2023-05-04 13:00:00",
@@ -62,7 +62,7 @@ const initialData = [
   },
   {
     id: 5,
-    meterId: "M005",
+    meterId: "10005",
     hhId: "HH005",
     eventId: "E005",
     audienceSessionStart: "2023-05-05 14:00:00",
@@ -78,7 +78,7 @@ const DerivedAlarms = () => {
   const [globalFilter, setGlobalFilter] = useState("");
 
   const columns = [
-    { accessorKey: "meterId", header: "Meter ID" },
+    { accessorKey: "meterId", header: "Device ID" },
     { accessorKey: "hhId", header: "HH ID" },
     { accessorKey: "eventId", header: "Event ID" },
     { accessorKey: "audienceSessionStart", header: "Audience Session Start" },

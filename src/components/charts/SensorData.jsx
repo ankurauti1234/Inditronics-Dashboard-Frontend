@@ -93,6 +93,11 @@ export default function SensorData() {
             new Date(alert.timestamp),
             "MMM d, yyyy h:mm:ss a"
           ),
+          style: {
+            background: "rgb(220, 38, 38)", // Tailwind's red-600
+            color: "white",
+            border: "none",
+          },
         }
       );
     });

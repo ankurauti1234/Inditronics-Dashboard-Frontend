@@ -86,7 +86,7 @@ const Page = () => {
                 value="meter"
                 onClick={() => setActiveStockTab("meter")}
               >
-                Meter
+                Device
               </TabsTrigger>
               <TabsTrigger
                 className="data-[state=active]:text-primary"
@@ -123,7 +123,7 @@ const Page = () => {
                 value="meter"
                 onClick={() => setActiveMasterDataTab("meter")}
               >
-                Meter
+                Device
               </TabsTrigger>
               <TabsTrigger
                 className="data-[state=active]:text-primary"

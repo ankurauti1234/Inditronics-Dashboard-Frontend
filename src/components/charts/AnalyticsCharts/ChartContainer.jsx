@@ -4,11 +4,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 const ChartContainer = ({ title, children }) => {
   return (
     <Card className="bg-white">
-      <CardHeader>
-        <CardTitle>{title}</CardTitle>
+      <CardHeader className="px-4 py-2 border-b">
+        <CardTitle className="text-lg">{title}</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="h-[300px]">{children}</div>
+        <div className="h-[400px]">{children}</div>
       </CardContent>
     </Card>
   );
