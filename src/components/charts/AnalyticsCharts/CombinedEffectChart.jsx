@@ -21,6 +21,42 @@ const TEMP_LCL = 190;
 const SPEED_UCL = 1.2;
 const SPEED_LCL = 0.8;
 
+// Dummy Data Generation
+const generateDummyData = () => {
+  const realData = [];
+  const predictionData = [];
+  const startTime = new Date();
+
+  for (let i = 0; i < 20; i++) {
+    const timestamp = new Date(startTime.getTime() + i * 15 * 60000); // 15-minute intervals
+
+    // Real Data with some variations and potential out-of-control points
+    const realTemperature =
+      200 + Math.sin(i * 0.5) * 20 + (Math.random() * 10 - 5);
+    const realSpeed =
+      1.0 + Math.cos(i * 0.5) * 0.3 + (Math.random() * 0.2 - 0.1);
+
+    realData.push({
+      Timestamp: timestamp.toLocaleTimeString(),
+      Temperature: realTemperature,
+      Conveyor_Speed: realSpeed,
+      outOfUCL: realTemperature > TEMP_UCL || realSpeed > SPEED_UCL,
+    });
+
+    // Prediction Data with slight projection
+    const predTemperature = realTemperature + (Math.random() * 10 - 5);
+    const predSpeed = realSpeed + (Math.random() * 0.2 - 0.1);
+
+    predictionData.push({
+      Timestamp: timestamp.toLocaleTimeString(),
+      Temperature: predTemperature,
+      Conveyor_Speed: predSpeed,
+    });
+  }
+
+  return { realData, predictionData };
+};
+
 const CustomTooltip = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
     return (
@@ -28,7 +64,7 @@ const CustomTooltip = ({ active, payload, label }) => {
         <p className="font-bold">{`Time: ${label}`}</p>
         {payload.map((entry, index) => (
           <p key={index} style={{ color: entry.color }}>
-            {`${entry.name}: ${entry.value}`}
+            {`${entry.name}: ${entry.value.toFixed(2)}`}
           </p>
         ))}
         {payload[0].payload.outOfUCL && (
@@ -60,11 +96,15 @@ const CustomizedDot = (props) => {
   return null;
 };
 
-export default function CombinedEffectChart({ realData, predictionData }) {
+export default function CombinedEffectChart() {
   const [showAlert, setShowAlert] = useState(false);
   const [truncatedRealData, setTruncatedRealData] = useState([]);
+  const [predictionData, setPredictionData] = useState([]);
 
   useEffect(() => {
+    // Generate dummy data on component mount
+    const { realData, predictionData: predData } = generateDummyData();
+
     if (realData && realData.length > 3) {
       const truncated = realData.slice(0, -3).map((point) => ({
         ...point,
@@ -72,8 +112,11 @@ export default function CombinedEffectChart({ realData, predictionData }) {
           point.Temperature > TEMP_UCL || point.Conveyor_Speed > SPEED_UCL,
       }));
       setTruncatedRealData(truncated);
+      setPredictionData(predData);
+
       const alertStatus = checkCombinedEffect(truncated);
       setShowAlert(alertStatus);
+
       if (alertStatus) {
         toast.error(
           "Alert: Combined effect of increasing temperature and decreasing conveyor speed detected!",
@@ -87,7 +130,7 @@ export default function CombinedEffectChart({ realData, predictionData }) {
         );
       }
     }
-  }, [realData]);
+  }, []);
 
   return (
     <div className="h-96">

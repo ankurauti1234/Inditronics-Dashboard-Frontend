@@ -14,9 +14,11 @@ import {
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { toast } from "sonner";
 
+// Constants for Upper and Lower Control Limits
 const UCL = 3;
 const LCL = 1;
 
+// Custom Tooltip Component
 const CustomTooltip = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
     return (
@@ -33,6 +35,20 @@ const CustomTooltip = ({ active, payload, label }) => {
   return null;
 };
 
+// Dummy data generation function
+const generateDummyData = () => {
+  const baseTemperatures = [
+    22.5, 23.0, 23.5, 24.0, 24.5, 25.0, 25.5, 26.0, 26.5, 27.0, 27.5, 28.0,
+    28.5, 29.0, 29.5, 30.0, 30.5, 31.0, 31.5, 32.0,
+  ];
+
+  return baseTemperatures.map((temp, index) => ({
+    Timestamp: `Time ${index + 1}`,
+    Temperature: temp + (Math.random() * 1 - 0.5), // Add some randomness
+  }));
+};
+
+// Calculate ranges for subgroups
 const calculateRanges = (data) => {
   const ranges = [];
   for (let i = 0; i < data.length; i += 5) {
@@ -49,6 +65,7 @@ const calculateRanges = (data) => {
   return ranges;
 };
 
+// Check temperature fluctuation
 const checkTemperatureFluctuation = (ranges) => {
   for (let i = 0; i < ranges.length - 1; i++) {
     if (ranges[i].Range >= 2 && ranges[i + 1].Range >= 1) {
@@ -58,7 +75,10 @@ const checkTemperatureFluctuation = (ranges) => {
   return false;
 };
 
-const TemperatureFluctuationChart = ({ realData }) => {
+// Main Component
+const TemperatureFluctuationChart = () => {
+  // Generate dummy data
+  const [realData, setRealData] = useState(generateDummyData());
   const [showAlert, setShowAlert] = useState(false);
   const [ranges, setRanges] = useState([]);
 
@@ -67,6 +87,7 @@ const TemperatureFluctuationChart = ({ realData }) => {
     setRanges(calculatedRanges);
     const alertStatus = checkTemperatureFluctuation(calculatedRanges);
     setShowAlert(alertStatus);
+
     if (alertStatus) {
       toast.error(
         "Alert: Combined effect of increasing temperature and decreasing conveyor speed detected!",
@@ -82,8 +103,8 @@ const TemperatureFluctuationChart = ({ realData }) => {
   }, [realData]);
 
   return (
-    <>
-      <ResponsiveContainer width="100%" height="100%">
+    <div className="w-full h-96 p-4">
+      <ResponsiveContainer width="100%" height="80%">
         <LineChart data={ranges}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="Timestamp" />
@@ -119,7 +140,7 @@ const TemperatureFluctuationChart = ({ realData }) => {
           </AlertDescription>
         </Alert>
       )}
-    </>
+    </div>
   );
 };
 

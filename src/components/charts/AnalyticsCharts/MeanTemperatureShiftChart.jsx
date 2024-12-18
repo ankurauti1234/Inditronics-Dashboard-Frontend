@@ -18,6 +18,34 @@ import { toast } from "sonner";
 const UCL = 210;
 const LCL = 190;
 
+// Dummy data generation
+const generateDummyData = () => {
+  const baseData = [];
+  const startTime = new Date();
+
+  // Generate real data with some temperature variations
+  for (let i = 0; i < 30; i++) {
+    const timestamp = new Date(startTime.getTime() + i * 1000);
+    baseData.push({
+      Timestamp: timestamp.toISOString(),
+      Temperature: 200 + Math.sin(i * 0.5) * 10 + (Math.random() * 5 - 2.5),
+    });
+  }
+
+  // Generate prediction data
+  const predictionData = [];
+  for (let i = 0; i < 10; i++) {
+    const timestamp = new Date(startTime.getTime() + (30 + i) * 1000);
+    predictionData.push({
+      Timestamp: timestamp.toISOString(),
+      Temperature:
+        205 + Math.sin((30 + i) * 0.5) * 10 + (Math.random() * 5 - 2.5),
+    });
+  }
+
+  return { realData: baseData, predictionData };
+};
+
 const CustomTooltip = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
     return (
@@ -25,7 +53,7 @@ const CustomTooltip = ({ active, payload, label }) => {
         <p className="font-bold">{`Time: ${label}`}</p>
         {payload.map((entry, index) => (
           <p key={index} style={{ color: entry.color }}>
-            {`${entry.name}: ${entry.value}`}
+            {`${entry.name}: ${entry.value.toFixed(2)}`}
           </p>
         ))}
       </div>
@@ -65,11 +93,14 @@ const parseTimestamp = (timestamp) => {
   return new Date();
 };
 
-const MeanTemperatureShiftChart = ({ realData, predictionData }) => {
+const MeanTemperatureShiftChart = () => {
   const [showAlert, setShowAlert] = useState(false);
   const [combinedData, setCombinedData] = useState([]);
 
   useEffect(() => {
+    // Generate dummy data
+    const { realData, predictionData } = generateDummyData();
+
     if (!realData || realData.length === 0) {
       console.warn("No real data available");
       return;
@@ -126,7 +157,7 @@ const MeanTemperatureShiftChart = ({ realData, predictionData }) => {
     }
 
     setCombinedData(combined);
-  }, [realData, predictionData]);
+  }, []);
 
   if (combinedData.length === 0) {
     return <div>No data available</div>;
@@ -134,7 +165,7 @@ const MeanTemperatureShiftChart = ({ realData, predictionData }) => {
 
   return (
     <>
-      <ResponsiveContainer width="100%" height="100%">
+      <ResponsiveContainer width="100%" height={400}>
         <LineChart data={combinedData}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="Timestamp" />

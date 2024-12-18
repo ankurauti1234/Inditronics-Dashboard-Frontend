@@ -35,7 +35,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { format } from "date-fns";
+import { format, subSeconds } from "date-fns";
 import { cn } from "@/lib/utils";
 import { Toaster, toast } from "sonner";
 
@@ -43,34 +43,38 @@ const LCL = 2;
 const UCL = 100;
 const ALERTS_PER_PAGE = 5;
 
+// Function to generate dummy sensor data
+const generateDummyData = () => {
+  const now = new Date();
+  return Array.from({ length: 5 }, (_, i) => {
+    const timestamp = subSeconds(now, i * 5);
+    const distance = Math.random() * 120; // Random distance between 0 and 120
+    return {
+      timestamp: timestamp.toISOString(),
+      distance: distance,
+      isAlert: distance < LCL || distance > UCL,
+    };
+  }).reverse(); // Reverse to show most recent data first
+};
+
 export default function SensorData() {
-  const [sensorData, setSensorData] = useState([]);
+  const [sensorData, setSensorData] = useState(generateDummyData());
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
+  const [totalPages] = useState(1);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [alerts, setAlerts] = useState([]);
   const [alertsPage, setAlertsPage] = useState(1);
 
-  const fetchData = async () => {
-    let url = `https://apmapis.webdevava.live/api/sensor/live?page=${currentPage}&limit=5`;
-    if (startDate && endDate) {
-      url += `&startTime=${startDate.toISOString()}&endTime=${endDate.toISOString()}`;
-    }
-    try {
-      const response = await fetch(url);
-      const result = await response.json();
-      const processedData = result.data.map((item) => ({
-        ...item,
-        isAlert: item.distance < LCL || item.distance > UCL,
-      }));
-      setSensorData(processedData);
-      setTotalPages(result.totalPages);
-      updateAlerts(processedData);
-    } catch (error) {
-      console.error("Error fetching sensor data:", error);
-    }
+  const fetchDummyData = () => {
+    const newData = generateDummyData();
+    const processedData = newData.map((item) => ({
+      ...item,
+      isAlert: item.distance < LCL || item.distance > UCL,
+    }));
+    setSensorData(processedData);
+    updateAlerts(processedData);
   };
 
   const updateAlerts = (data) => {
@@ -104,10 +108,10 @@ export default function SensorData() {
   };
 
   useEffect(() => {
-    fetchData();
-    const intervalId = setInterval(fetchData, 5000); // Fetch every 5 seconds
+    fetchDummyData();
+    const intervalId = setInterval(fetchDummyData, 5000); // Refresh dummy data every 5 seconds
     return () => clearInterval(intervalId);
-  }, [currentPage, startDate, endDate]);
+  }, []);
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
@@ -118,16 +122,15 @@ export default function SensorData() {
   };
 
   const handleFilterApply = () => {
-    setCurrentPage(1);
-    fetchData();
+    // For dummy data, filtering doesn't change much
+    fetchDummyData();
     setIsFilterOpen(false);
   };
 
   const handleFilterReset = () => {
     setStartDate(null);
     setEndDate(null);
-    setCurrentPage(1);
-    fetchData();
+    fetchDummyData();
     setIsFilterOpen(false);
   };
 
@@ -140,9 +143,8 @@ export default function SensorData() {
 
   return (
     <Card className="bg-transparent bg-clip-padding backdrop-filter backdrop-blur-xl bg-opacity-10 shadow-inner shadow-accent/50">
-      {/* <Toaster /> */}
       <CardHeader className="px-4 py-2 border-b">
-        <CardTitle className="text-lg">Live Device Data</CardTitle>
+        <CardTitle className="text-lg">Live Device Data (Simulated)</CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col w-full items-center justify-evenly gap-4 p-4">
         <Card className="w-full">
@@ -287,7 +289,7 @@ export default function SensorData() {
                     </div>
                   </PopoverContent>
                 </Popover>
-                <Button variant="outline" onClick={fetchData}>
+                <Button variant="outline" onClick={fetchDummyData}>
                   <RefreshCw className="mr-2 h-4 w-4" /> Refresh
                 </Button>
                 <Button
